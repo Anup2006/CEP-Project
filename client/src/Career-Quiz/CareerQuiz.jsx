@@ -140,7 +140,7 @@ export default function CareerQuiz({ onComplete, onBack }) {
   };
 
   const currentQ = questions[currentQuestion];
-  const progress = ((currentQuestion + 1) / questions.length) * 100;
+  const progress = ((currentQuestion ) / questions.length) * 100;
   const isLastQuestion = currentQuestion === questions.length - 1;
   const hasAnswer = answers[currentQuestion] !== undefined;
 

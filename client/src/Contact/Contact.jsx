@@ -220,7 +220,7 @@ export default function Contact() {
           </div>
 
           {/* Contact Information */}
-          <div className="contact-info-section">
+          <div className="contact-info-section1">
             <div className="contact-info-card">
               <div className="contact-info-header">
                 <h3 className="contact-info-title">Contact Information</h3>
@@ -234,8 +234,8 @@ export default function Contact() {
                     <Mail className="contact-info-icon-svg" />
                   </div>
                   <div className="contact-info-details">
-                    <div className="contact-info-label">Email Us</div>
-                    <div className="contact-info-value">support@careercompass.com</div>
+                    <div className="contact-info-label1">Email Us</div>
+                    <div className="contact-info-value1">support@careercompass.com</div>
                     <div className="contact-info-subtitle">We'll respond within 24 hours</div>
                   </div>
                 </div>
@@ -245,9 +245,9 @@ export default function Contact() {
                     <Phone className="contact-info-icon-svg" />
                   </div>
                   <div className="contact-info-details">
-                    <div className="contact-info-label">Call Us</div>
-                    <div className="contact-info-value">+91 98765 43210</div>
-                    <div className="contact-info-subtitle">Mon-Fri: 9:00 AM - 6:00 PM IST</div>
+                    <div className="contact-info-label1">Call Us</div>
+                    <div className="contact-info-value1">+91 98765 43210</div>
+                    <div className="contact-info-subtitle">Mon-Fri: 9:00 AM - 6:00 PM </div>
                   </div>
                 </div>
 
@@ -256,8 +256,8 @@ export default function Contact() {
                     <MapPin className="contact-info-icon-svg" />
                   </div>
                   <div className="contact-info-details">
-                    <div className="contact-info-label">Visit Us</div>
-                    <div className="contact-info-value">Mumbai, Maharashtra</div>
+                    <div className="contact-info-label1">Visit Us</div>
+                    <div className="contact-info-value1">Mumbai, Maharashtra</div>
                     <div className="contact-info-subtitle">By appointment only</div>
                   </div>
                 </div>
