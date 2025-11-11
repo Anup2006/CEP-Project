@@ -19,7 +19,7 @@ export default function Header({ currentSection, onSectionChange }) {
         <div className="header-content">
           {/* Logo */}
           <div className="logo" onClick={() => onSectionChange('home')}>
-            <GraduationCap className="logo-icon" />
+            <GraduationCap className="logo-icon"/>
             <span className="logo-text">CareerCompass</span>
           </div>
 
