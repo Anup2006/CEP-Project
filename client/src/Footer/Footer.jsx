@@ -142,7 +142,7 @@ export default function Footer({ onSectionChange }) {
         {/* Bottom Footer */}
         <div className="footer-bottom">
           <div className="copyright">
-            © 2024 CareerCompass. All rights reserved.
+            © 2025 CareerCompass. All rights reserved.
           </div>
           <div className="footer-legal">
             <button className="legal-link">Privacy Policy</button>

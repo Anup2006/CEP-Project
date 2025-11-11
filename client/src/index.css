@@ -68,7 +68,7 @@ button:focus-visible {
 } */
 
 
-
+/* 
 @custom-variant dark (&:is(.dark *));
 
 :root {
@@ -198,12 +198,12 @@ button:focus-visible {
   body {
     @apply bg-background text-foreground;
   }
-}
+} */
 
 /**
  * Base typography. This is not applied to elements which have an ancestor with a Tailwind text class.
  */
-@layer base {
+/* @layer base {
   :where(:not(:has([class*=" text-"]), :not(:has([class^="text-"])))) {
     h1 {
       font-size: var(--text-2xl);
@@ -257,4 +257,4 @@ button:focus-visible {
 
 html {
   font-size: var(--font-size);
-}
+} */

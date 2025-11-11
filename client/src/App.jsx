@@ -7,7 +7,6 @@ import CareerExploration  from "./Career-Exploration/CareerExploration.jsx";
 import Resources  from "./Resources/Resources.jsx";
 import Contact  from "./Contact/Contact.jsx";
 import Footer  from "./Footer/Footer.jsx";
-import "./App.css";
 
 export default function App() {
   const [currentSection, setCurrentSection] = useState("home");

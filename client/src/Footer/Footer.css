@@ -1,16 +1,18 @@
 .footer {
   background-color: #111827;
   color: white;
-  width: 1350px;
+  width: 1703px;
   margin-left: -2rem;
 }
 ::marker {
   color: #111827;
 }
 .footer-container {
-  max-width: 1200px;
+  max-width: 1580px;
   margin: 0 auto;
-  padding: 3rem 1rem;
+  padding-left: 7rem ;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 .footer-content {
@@ -51,14 +53,14 @@
 }
 
 .company-name {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: 600;
   margin-top: 1rem;
 }
 
 .company-description {
   color: #d1d5db;
-  font-size: 0.875rem;
+  font-size: 1rem;
   line-height: 1.5;
   text-align: left;
 }
@@ -86,21 +88,23 @@
 }
 
 .social-icon {
-  width: 1rem;
-  height: 1rem;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .footer-section {
   display: flex;
   flex-direction: column;
+  gap: 1rem;
 }
 
 .footer-section-title {
   font-weight: 600;
-  font-size: 1.125rem;
+  font-size: 1.5rem;
   color: white;
   margin-left: 2.4rem;
   text-align: left;
+  margin-bottom: 0rem;
 }
 
 .footer-links {
@@ -112,7 +116,7 @@
 
 .footer-link {
   color: #d1d5db;
-  font-size: 0.875rem;
+  font-size: 1rem;
   background: none;
   border: none;
   text-align: left;
@@ -126,6 +130,7 @@
 }
 
 .footer-separator {
+  width:1500px;
   height: 1px;
   background-color: #374151;
   margin: 2rem 0;
@@ -151,8 +156,8 @@
 }
 
 .contact-info-icon {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 2rem;
+  height: 2rem;
   color: var(--color-primary);
 }
 
@@ -164,17 +169,19 @@
 }
 
 .contact-info-label {
-  font-size: 0.85rem;
+  font-size: 1rem;
   color: #d1d5db;
   height: 20px;
   font-weight: bold;
+  margin-bottom:0rem ;
 }
 
 .contact-info-value {
-  font-size: 0.85rem;
+  font-size: 1rem;
   color: white;
   height: 20px;
   font-weight: bold;
+  margin-bottom:0rem ;
 }
 
 .footer-bottom {
@@ -192,14 +199,14 @@
 }
 
 .copyright {
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: #d1d5db;
 }
 
 .footer-legal {
   display: flex;
   gap: 1.5rem;
-  font-size: 0.875rem;
+  font-size: 1.25rem;
 }
 
 .legal-link {
