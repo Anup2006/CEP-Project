@@ -24,7 +24,7 @@ const userSchema = new Schema({
         trim:true,
         index:true
     },
-    class:{
+    grade:{
         type:Number,
         required:true,
     },
