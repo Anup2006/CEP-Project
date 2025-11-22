@@ -1,12 +1,13 @@
 import { useState } from "react";
-import Header  from "./Header/Header.jsx";
-import Home  from "./Home/Home.jsx";
-import CareerQuiz  from "./Career-Quiz/CareerQuiz.jsx";
-import QuizResults  from "./QuizResults/QuizResults.jsx";
-import CareerExploration  from "./Career-Exploration/CareerExploration.jsx";
-import Resources  from "./Resources/Resources.jsx";
-import Contact  from "./Contact/Contact.jsx";
-import Footer  from "./Footer/Footer.jsx";
+import AuthForm from "./Pages/AuthLanding/AuthForm.jsx";
+import Header  from "./Components/Header/Header.jsx";
+import Home  from "./Pages/Home/Home.jsx";
+import CareerQuiz  from "./Pages/Career-Quiz/CareerQuiz.jsx";
+import QuizResults  from "./Pages/QuizResults/QuizResults.jsx";
+import CareerExploration  from "./Pages/Career-Exploration/CareerExploration.jsx";
+import Resources  from "./Pages/Resources/Resources.jsx";
+import Contact  from "./Pages/Contact/Contact.jsx";
+import Footer  from "./Components/Footer/Footer.jsx";
 
 export default function App() {
   const [currentSection, setCurrentSection] = useState("home");
@@ -61,12 +62,13 @@ export default function App() {
 
   return (
     <div className="app">
-      <Header 
+      <AuthForm/>
+      {/* <Header 
         currentSection={currentSection} 
         onSectionChange={setCurrentSection}
       />
       {renderCurrentSection()}
-      <Footer onSectionChange={setCurrentSection} />
+      <Footer onSectionChange={setCurrentSection} /> */}
     </div>
   );
 }
