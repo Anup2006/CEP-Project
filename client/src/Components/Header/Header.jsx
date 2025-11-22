@@ -1,70 +1,99 @@
 import { GraduationCap, Menu, X } from "lucide-react";
 import { useState } from "react";
-import "./Header.css";
+import {Link,NavLink} from "react-router-dom";
 
-export default function Header({ currentSection, onSectionChange }) {
+export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const navigationItems = [
-    { id: 'home', label: 'Home' },
-    { id: 'quiz', label: 'Career Quiz' },
-    { id: 'explore', label: 'Explore Careers' },
-    { id: 'resources', label: 'Resources' },
-    { id: 'contact', label: 'Contact Us' }
-  ];
-
   return (
-    <header className="header">
-      <div className="header-container">
-        <div className="header-content">
+    <header className="sticky top-0 shadow-md z-50">
+      <nav className="bg-white lg:block flex h-20 lg:px-6 py-4 mx-auto">
+        <div className="flex flex-wrap justify-center lg:justify-between items-center mx-auto max-w-screen-xl">
           {/* Logo */}
-          <div className="logo" onClick={() => onSectionChange('home')}>
-            <GraduationCap className="logo-icon"/>
-            <span className="logo-text">CareerCompass</span>
+          <div className="flex items-center gap-2" >
+            <GraduationCap className="w-8 h-8" />
+            <span className="text-2xl font-semibold">CareerCompass</span>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="desktop-nav">
-            {navigationItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => onSectionChange(item.id)}
-                className={`nav-button ${currentSection === item.id ? 'active' : ''}`}
-              >
-                {item.label}
-              </button>
-            ))}
-          </nav>
+          <ul className="hidden justify-between gap-2 items-center w-full lg:flex lg:w-auto ">
+            <li>
+              <NavLink to="/home" className={({isActive})=> 
+                `block py-3 pr-5 pl-5 rounded-lg hover:bg-gray-300 ${isActive? "text-white bg-black":"text-black bg-white"}`} >
+                Home
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/quiz" className={({isActive})=> 
+                `block py-3 pr-5 pl-5 rounded-lg hover:bg-gray-300 ${isActive? "text-white bg-black":"text-black bg-white"}`} >
+                Career Quiz
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/explore-careers" className={({isActive})=> 
+                `block py-3 pr-5 pl-5 rounded-lg hover:bg-gray-300 ${isActive? "text-white bg-black":"text-black bg-white"}`} >
+                Explore Careers
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/resources" className={({isActive})=> 
+                `block py-3 pr-5 pl-5 rounded-lg hover:bg-gray-300 ${isActive? "text-white bg-black":"text-black bg-white"}`} >
+                Resources
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/contact" className={({isActive})=> 
+                `block py-3 pr-5 pl-5 rounded-lg hover:bg-gray-300 ${isActive? "text-white bg-black":"text-black bg-white"}`} >
+                Contact Us
+              </NavLink>
+            </li>
+            {/* <li>
+              <NavLink to="/dashboard" className={({isActive})=> 
+                `block py-3 pr-5 pl-5 rounded-lg hover:bg-gray-300 ${isActive? "text-white bg-black":"text-black bg-white"}`} >
+                Dashboard
+              </NavLink>
+            </li> */}
+          </ul>
 
           {/* Mobile Menu Button */}
           <button
-            className="mobile-menu-button"
+            className="lg:hidden  p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-black"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
-            {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+            {mobileMenuOpen ? <X /> : <Menu />}
           </button>
+          {/* Mobile Navigation */}
         </div>
-
-        {/* Mobile Navigation */}
-        {mobileMenuOpen && (
-          <nav className="mobile-nav">
-            <div className="mobile-nav-content">
-              {navigationItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => {
-                    onSectionChange(item.id);
-                    setMobileMenuOpen(false);
-                  }}
-                  className={`mobile-nav-button ${currentSection === item.id ? 'active' : ''}`}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
-          </nav>
-        )}
-      </div>
+        <div className={`${mobileMenuOpen ? "block" : "hidden" }`}>
+          <ul className="flex flex-col rounded-lg bg-black text-white gap-2 ">
+              <li>
+                <NavLink to="/home" className="block py-2 px-4 rounded-lg hover:bg-gray-300" onClick={() => setMobileMenuOpen(false)}>
+                  Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/quiz" className="block py-2 px-4 rounded-lg hover:bg-gray-300" onClick={() => setMobileMenuOpen(false)}>
+                  Career Quiz
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/explore-careers" className="block py-2 px-4 rounded-lg hover:bg-gray-300" onClick={() => setMobileMenuOpen(false)}>
+                  Explore Careers
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/resources" className="block py-2 px-4 rounded-lg hover:bg-gray-300" onClick={() => setMobileMenuOpen(false)}>
+                  Resources
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/contact" className="block py-2 px-4 rounded-lg hover:bg-gray-300" onClick={() => setMobileMenuOpen(false)}>
+                  Contact Us
+                </NavLink>
+              </li>
+          </ul>
+        </div>
+      </nav>
     </header>
   );
 }
