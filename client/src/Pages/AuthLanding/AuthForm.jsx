@@ -1,14 +1,18 @@
 import { GraduationCap,Mail,Phone,Lock,User} from "lucide-react";
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import { useNavigate } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
-import GoogleButton from "./GoogleButton";
-import PhoneButton from "./PhoneButton";
+import GoogleButton from "./GoogleButton.jsx";
+import PhoneButton from "./PhoneButton.jsx";
 import {toast} from "sonner";
+import {useDispatch,useSelector} from 'react-redux';
+import {loginUser,signupUser} from '../../redux/authSlice.js';
+
 
 export default function AuthForm(){
     const [activeTab, setActiveTab] = useState("login");
     const [loginMethod, setLoginMethod] = useState("email");
-    // const { loginUser, signupUser, loading, error } = useAuthApi();
+    const {token,loading, error} = useSelector((state)=>state.auth);
 
     // Login form state        
     const [loginEmail, setLoginEmail] = useState("");
@@ -20,6 +24,9 @@ export default function AuthForm(){
     const [signupEmail, setSignupEmail] = useState("");
     const [signupPassword, setSignupPassword] = useState("");
 
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const handleLogin = async (e) => {
         e.preventDefault();
         const identifier = loginMethod === "email" ? loginEmail : loginPhone;
@@ -28,13 +35,20 @@ export default function AuthForm(){
             toast.error(`Please enter your ${fieldName} and password`);
             return;
         }
+        dispatch(loginUser({email:identifier,password:loginPassword}))
 
     }
+    useEffect(() => {
+        if (token) {
+        navigate("/app", { replace: true });
+        }
+    }, [token, navigate]);
 
     const handleSignup = async (e) => {
     e.preventDefault();
     if (!signupName || !signupEmail || !signupPassword)
       return toast.error("Please fill all fields");
+    dispatch(signupUser({email: signupEmail, fullname: signupName, password: signupPassword}) )
     }
 
     return (
@@ -170,10 +184,10 @@ export default function AuthForm(){
                                             </div>
                                             <button
                                                 type="submit"
-                                                // disabled={loading}
+                                                disabled={loading}
                                                 className="w-full bg-black hover:bg-gray-200  hover:text-black text-white p-2 rounded-md disabled:opacity-50 transition-all"
-                                            >Login
-                                            {/* {loading ? "Logging in..." : "Login"}  */}
+                                            >
+                                                {loading ? "Logging in..." : "Login"} 
                                             </button>
                                         </form>
                                     </motion.div>
@@ -266,11 +280,10 @@ export default function AuthForm(){
 
                                             <button
                                                 type="submit"
-                                                // disabled={loading}
+                                                disabled={loading}
                                                 className="w-full bg-black hover:bg-gray-200 hover:text-black text-white  p-2 rounded-md disabled:opacity-50 transition-all"
                                             >
-                                                Sign Up
-                                                {/* {loading ? "Creating Account..." : "Sign Up"} */}
+                                                {loading ? "Creating Account..." : "Sign Up"}
                                             </button>
                                         </form>
                                     </motion.div>

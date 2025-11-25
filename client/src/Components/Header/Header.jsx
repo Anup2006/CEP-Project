@@ -18,31 +18,31 @@ export default function Header() {
           {/* Desktop Navigation */}
           <ul className="hidden justify-between gap-2 items-center w-full lg:flex lg:w-auto ">
             <li>
-              <NavLink to="/home" className={({isActive})=> 
+              <NavLink to="/app/home" className={({isActive})=> 
                 `block py-3 pr-5 pl-5 rounded-lg hover:bg-gray-300 ${isActive? "text-white bg-black":"text-black bg-white"}`} >
                 Home
               </NavLink>
             </li>
             <li>
-              <NavLink to="/quiz" className={({isActive})=> 
+              <NavLink to="/app/quiz" className={({isActive})=> 
                 `block py-3 pr-5 pl-5 rounded-lg hover:bg-gray-300 ${isActive? "text-white bg-black":"text-black bg-white"}`} >
                 Career Quiz
               </NavLink>
             </li>
             <li>
-              <NavLink to="/explore-careers" className={({isActive})=> 
+              <NavLink to="/app/explore-careers" className={({isActive})=> 
                 `block py-3 pr-5 pl-5 rounded-lg hover:bg-gray-300 ${isActive? "text-white bg-black":"text-black bg-white"}`} >
                 Explore Careers
               </NavLink>
             </li>
             <li>
-              <NavLink to="/resources" className={({isActive})=> 
+              <NavLink to="/app/resources" className={({isActive})=> 
                 `block py-3 pr-5 pl-5 rounded-lg hover:bg-gray-300 ${isActive? "text-white bg-black":"text-black bg-white"}`} >
                 Resources
               </NavLink>
             </li>
             <li>
-              <NavLink to="/contact" className={({isActive})=> 
+              <NavLink to="/app/contact" className={({isActive})=> 
                 `block py-3 pr-5 pl-5 rounded-lg hover:bg-gray-300 ${isActive? "text-white bg-black":"text-black bg-white"}`} >
                 Contact Us
               </NavLink>
@@ -67,27 +67,27 @@ export default function Header() {
         <div className={`${mobileMenuOpen ? "block" : "hidden" }`}>
           <ul className="flex flex-col rounded-lg bg-black text-white gap-2 ">
               <li>
-                <NavLink to="/home" className="block py-2 px-4 rounded-lg hover:bg-gray-300" onClick={() => setMobileMenuOpen(false)}>
+                <NavLink to="/app/home" className="block py-2 px-4 rounded-lg hover:bg-gray-300" onClick={() => setMobileMenuOpen(false)}>
                   Home
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/quiz" className="block py-2 px-4 rounded-lg hover:bg-gray-300" onClick={() => setMobileMenuOpen(false)}>
+                <NavLink to="/app/quiz" className="block py-2 px-4 rounded-lg hover:bg-gray-300" onClick={() => setMobileMenuOpen(false)}>
                   Career Quiz
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/explore-careers" className="block py-2 px-4 rounded-lg hover:bg-gray-300" onClick={() => setMobileMenuOpen(false)}>
+                <NavLink to="/app/explore-careers" className="block py-2 px-4 rounded-lg hover:bg-gray-300" onClick={() => setMobileMenuOpen(false)}>
                   Explore Careers
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/resources" className="block py-2 px-4 rounded-lg hover:bg-gray-300" onClick={() => setMobileMenuOpen(false)}>
+                <NavLink to="/app/resources" className="block py-2 px-4 rounded-lg hover:bg-gray-300" onClick={() => setMobileMenuOpen(false)}>
                   Resources
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/contact" className="block py-2 px-4 rounded-lg hover:bg-gray-300" onClick={() => setMobileMenuOpen(false)}>
+                <NavLink to="/app/contact" className="block py-2 px-4 rounded-lg hover:bg-gray-300" onClick={() => setMobileMenuOpen(false)}>
                   Contact Us
                 </NavLink>
               </li>
