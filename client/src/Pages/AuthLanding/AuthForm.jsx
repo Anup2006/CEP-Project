@@ -1,5 +1,5 @@
 import { GraduationCap,Mail,Phone,Lock,User} from "lucide-react";
-import { useState,useEffect } from "react";
+import { useState,useEffect} from "react";
 import { useNavigate } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import GoogleButton from "./GoogleButton.jsx";
@@ -12,7 +12,7 @@ import {loginUser} from '../../redux/authSlice.js';
 export default function AuthForm(){
     const [activeTab, setActiveTab] = useState("login");
     const [loginMethod, setLoginMethod] = useState("email");
-    const [next,setNext]=useState(false);
+    const[next,setNext]=useState(false);
     const {token,loading, error} = useSelector((state)=>state.auth);
 
     // Login form state        
@@ -47,17 +47,17 @@ export default function AuthForm(){
 
     const handleNext = async (e) => {
         e.preventDefault();
-        if (!username || !signupEmail || !signupPassword)
-        return toast.error("Please fill all fields");
-        
+        if (!username || !signupEmail || !signupPassword){
+            return toast.error("Please fill all fields");
+        }
         setNext(true)
     }
-    useEffect(()=>{
+    useEffect(() => {
         if(next){
             const data = { username, signupEmail,signupPassword}; // your form data
-            navigate("/auth/signupDetails", { state: data , replace :true});
+            navigate("/auth/signupDetails", { state: data , replace :true});     
         }
-    },[next,navigate])
+    },[next,navigate]);
 
     return (
         <>

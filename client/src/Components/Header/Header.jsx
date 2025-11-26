@@ -1,15 +1,20 @@
 import { GraduationCap, Menu, X } from "lucide-react";
 import { useState, useEffect} from "react";
-import {Link,NavLink} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logoutUser } from "../../redux/authSlice.js";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const token = useSelector(state=>state.auth.token);
+  const [isDropDownOpen,setIsDropDownOpen]=useState(false);
+  const {user,token} = useSelector(state=>state.auth);
+  const fallback = user?.fullname ? user.fullname.charAt(0).toUpperCase() : "?";
+  
   const dispatch=useDispatch();
   const navigate=useNavigate();
+
+
   const handleLogout= async ()=>{
     console.log("Logged out successfully");
     await dispatch(logoutUser()).unwrap();
@@ -62,11 +67,35 @@ export default function Header() {
                 Contact Us
               </NavLink>
             </li>
-            <li>
-              <button onClick={handleLogout} className="block py-3 pr-5 pl-5 rounded-lg hover:bg-gray-300">
-                Logout
-              </button>
-            </li>
+            
+            <div className="relative">
+              <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center font-bold text-2xl cursor-pointer " 
+                onClick={()=>setIsDropDownOpen(!isDropDownOpen)}>
+                  {user.avatar? (
+                    <img 
+                      src={user.avatar} 
+                      alt={user.fullname.charAt(0).toUpperCase()} 
+                      className="rounded-full w-12 h-12"
+                    />
+                  ):(fallback)}
+              </div>
+
+              {isDropDownOpen && (
+                <div className="absolute flex flex-col items-center bg-black text-white mt-2 rounded-lg w-50 shadow-lg border z-50"> 
+                  <div className="pt-2">
+                    <p className="font-semibold text-lg mb-1">{user.fullname}</p>
+                    <hr className="bg-white" />
+                    <p className="text-lg mt-1">
+                      {user.email ?? user.phone}
+                    </p>
+                  </div>
+
+                  <button onClick={handleLogout} className="block py-3 pr-5 pl-5 w-full rounded-lg hover:bg-gray-300">
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
             {/* <li>
               <NavLink to="/dashboard" className={({isActive})=> 
                 `block py-3 pr-5 pl-5 rounded-lg hover:bg-gray-300 ${isActive? "text-white bg-black":"text-black bg-white"}`} >
@@ -74,6 +103,7 @@ export default function Header() {
               </NavLink>
             </li> */}
           </ul>
+          
 
           {/* Mobile Menu Button */}
           <button
