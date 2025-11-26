@@ -32,7 +32,7 @@ const registerUser= asyncHandler( async (req,res)=>{
 
 
     //console.log(req.body)
-    const {fullname,email,password,username,grade} = req.body
+    const {email,fullname,password,username,grade} = req.body
 
     if ([fullname,email,password,username,grade].some((field)=> field?.trim()==="")){
         throw new apiError(400,"All fields are required!!")
@@ -72,8 +72,23 @@ const registerUser= asyncHandler( async (req,res)=>{
         throw new apiError(500,"something went wrong while registering user")
     }
 
-    return res.status(201).json(
-        new apiResponse(200,createdUser,"User registered sucessfully") 
+    const {accessToken,refreshToken} = await generateAccessAndRefreshTokens(user._id)
+
+    const options={
+        httpOnly:true,
+        secure:true,
+    }
+
+    return res.status(201)
+    .cookie("accessToken",accessToken,options)
+    .cookie("refreshToken",refreshToken,options)
+    .json(
+        new apiResponse(
+            200,
+            {
+                user:createdUser,accessToken,refreshToken
+            },
+            "User registered sucessfully") 
     )
 })
 

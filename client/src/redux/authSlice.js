@@ -18,9 +18,23 @@ const loginUser=createAsyncThunk(
 
 const signupUser=createAsyncThunk(
     "auth/signUpUser",
-    async({email,fullname,password},{rejectWithValue})=>{
+    async({email,username,fullname,grade,avatar,password},{rejectWithValue})=>{
         try {
-            const response = await axios.post(`${BACKEND_URL}/register`,{email,fullname,password});
+            const formData = new FormData();
+            formData.append("email",email);
+            formData.append("username", username);
+            formData.append("fullname", fullname);
+            formData.append("grade", grade);
+            formData.append("password", password);
+
+            if(avatar){
+                formData.append("avatar",avatar);
+            }
+            const response = await axios.post(`${BACKEND_URL}/register`,
+                formData,
+                {headers:{"Content-Type":"multipart/form-data"}}
+            );
+            console.log(response.data);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response.data); //sends your backend error message to the frontend

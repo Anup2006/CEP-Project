@@ -1,9 +1,24 @@
 import { GraduationCap, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import {Link,NavLink} from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logoutUser } from "../../redux/authSlice.js";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const token = useSelector(state=>state.auth.token);
+  const dispatch=useDispatch();
+  const navigate=useNavigate();
+  const handleLogout= async ()=>{
+    console.log("Logged out successfully");
+    await dispatch(logoutUser()).unwrap();
+  }
+  useEffect(()=>{
+    if(!token){
+      navigate("/auth",{replace:true})
+    }
+  },[token,navigate]);
 
   return (
     <header className="sticky top-0 shadow-md z-50">
@@ -46,6 +61,11 @@ export default function Header() {
                 `block py-3 pr-5 pl-5 rounded-lg hover:bg-gray-300 ${isActive? "text-white bg-black":"text-black bg-white"}`} >
                 Contact Us
               </NavLink>
+            </li>
+            <li>
+              <button onClick={handleLogout} className="block py-3 pr-5 pl-5 rounded-lg hover:bg-gray-300">
+                Logout
+              </button>
             </li>
             {/* <li>
               <NavLink to="/dashboard" className={({isActive})=> 

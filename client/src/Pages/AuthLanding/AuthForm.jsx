@@ -6,12 +6,13 @@ import GoogleButton from "./GoogleButton.jsx";
 import PhoneButton from "./PhoneButton.jsx";
 import {toast} from "sonner";
 import {useDispatch,useSelector} from 'react-redux';
-import {loginUser,signupUser} from '../../redux/authSlice.js';
+import {loginUser} from '../../redux/authSlice.js';
 
 
 export default function AuthForm(){
     const [activeTab, setActiveTab] = useState("login");
     const [loginMethod, setLoginMethod] = useState("email");
+    const [next,setNext]=useState(false);
     const {token,loading, error} = useSelector((state)=>state.auth);
 
     // Login form state        
@@ -20,7 +21,7 @@ export default function AuthForm(){
     const [loginPassword, setLoginPassword] = useState("");
 
     // Signup form state
-    const [signupName, setSignupName] = useState("");
+    const [username, setusername] = useState("");
     const [signupEmail, setSignupEmail] = useState("");
     const [signupPassword, setSignupPassword] = useState("");
 
@@ -44,12 +45,19 @@ export default function AuthForm(){
         }
     }, [token, navigate]);
 
-    const handleSignup = async (e) => {
-    e.preventDefault();
-    if (!signupName || !signupEmail || !signupPassword)
-      return toast.error("Please fill all fields");
-    dispatch(signupUser({email: signupEmail, fullname: signupName, password: signupPassword}) )
+    const handleNext = async (e) => {
+        e.preventDefault();
+        if (!username || !signupEmail || !signupPassword)
+        return toast.error("Please fill all fields");
+        
+        setNext(true)
     }
+    useEffect(()=>{
+        if(next){
+            const data = { username, signupEmail,signupPassword}; // your form data
+            navigate("/auth/signupDetails", { state: data , replace :true});
+        }
+    },[next,navigate])
 
     return (
         <>
@@ -208,23 +216,23 @@ export default function AuthForm(){
                                             </span>
                                         </div>
             
-                                        <form onSubmit={handleSignup} className="space-y-4">
-                                            {/* Full Name */}
+                                        <form onSubmit={handleNext} className="space-y-4">
+                                            {/* Username */}
                                             <div className="space-y-1">
                                                 <label
-                                                    htmlFor="signup-name"
+                                                    htmlFor="username"
                                                     className="block text-sm font-medium text-gray-700"
                                                 >
-                                                    Full Name
+                                                    Username
                                                 </label>
                                                 <div className="flex items-center border rounded-md px-3 py-2 focus-within:ring-2 focus-within:ring-blue-500">
                                                     <User className="w-5 h-5 text-gray-400" />
                                                     <input
-                                                        id="signup-name"
+                                                        id="username"
                                                         type="text"
-                                                        value={signupName}
-                                                        onChange={(e) => setSignupName(e.target.value)}
-                                                        placeholder="Your Name"
+                                                        value={username}
+                                                        onChange={(e) => setusername(e.target.value)}
+                                                        placeholder="Username"
                                                         className="flex-1 ml-3 outline-none"
                                                         required
                                                     />
@@ -280,10 +288,9 @@ export default function AuthForm(){
 
                                             <button
                                                 type="submit"
-                                                disabled={loading}
                                                 className="w-full bg-black hover:bg-gray-200 hover:text-black text-white  p-2 rounded-md disabled:opacity-50 transition-all"
                                             >
-                                                {loading ? "Creating Account..." : "Sign Up"}
+                                                Next
                                             </button>
                                         </form>
                                     </motion.div>

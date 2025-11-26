@@ -2,7 +2,6 @@ import {Navigate,Outlet} from "react-router-dom";
 import {useSelector} from "react-redux";
 
 export default function ProtectedRoutes(){
-    console.log("ProtectedRoutes rendered");
 
     const {token}=useSelector((state)=>state.auth);
     const storedToken = localStorage.getItem("token");

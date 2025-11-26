@@ -18,6 +18,7 @@ import CareerQuiz from "./Pages/Career-Quiz/CareerQuiz.jsx";
 import CareerExploration from "./Pages/Career-Exploration/CareerExploration.jsx";
 import Resources from "./Pages/Resources/Resources.jsx";
 import AuthForm from "./Pages/AuthLanding/AuthForm.jsx";
+import Profile from "./Pages/AuthLanding/Profile.jsx";
 import Contact from "./Pages/Contact/Contact.jsx";
 
 import ProtectedRoutes from "./utils/ProtectedRoutes.jsx";
@@ -31,6 +32,7 @@ const router = createBrowserRouter(
 
       {/* Public Route */}
       <Route path="/auth" element={<AuthForm />} />
+      <Route path="/auth/signupDetails" element={<Profile/>}/>
 
       {/* Protected Routes */}
       <Route element={<ProtectedRoutes />}>
