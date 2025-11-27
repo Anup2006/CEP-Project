@@ -7,6 +7,7 @@ import PhoneButton from "./PhoneButton.jsx";
 import {toast} from "sonner";
 import {useDispatch,useSelector} from 'react-redux';
 import {loginUser} from '../../redux/authSlice.js';
+import { NavLink } from "react-router";
 
 
 export default function AuthForm(){
@@ -41,7 +42,8 @@ export default function AuthForm(){
     }
     useEffect(() => {
         if (token) {
-        navigate("/app", { replace: true });
+            toast.success("Successfully Login!!")
+            navigate("/app", { replace: true });
         }
     }, [token, navigate]);
 
@@ -189,6 +191,9 @@ export default function AuthForm(){
                                                         required
                                                     />
                                                 </div>
+                                                <NavLink to="/auth/forgetPassword" className="text-gray-500 text-sm">
+                                                    Forget Password?
+                                                </NavLink>
                                             </div>
                                             <button
                                                 type="submit"

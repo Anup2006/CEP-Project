@@ -194,9 +194,40 @@ const refreshAccessToken=asyncHandler(async(req,res)=>{
     }
 
 })
+
+const forgetPassword=asyncHandler(async(req,res)=>{
+    const {email,newPassword,confPassword}=req.body
+    
+    if([email,newPassword,confPassword].some((field)=> field?.trim()==="")){
+        throw new apiError(400,"All fields are required!!")
+    }
+
+    if(!(newPassword === confPassword)){
+        throw new apiError(400,"Confirm Password doesn't match ")
+    }
+
+    const user=await User.findOne({email})
+
+    if(!user){
+        throw new apiError(404,"User with this email id does not exists")
+    }
+    
+    user.password=newPassword
+    await user.save({validateBeforeSave:false})
+
+    return res.status(201)
+    .json(
+        new apiResponse(
+            200,
+            {},
+            "Password reset Successfully"
+        )
+    )
+})
 export {
     registerUser,
     loginUser,
     logOutUser,
     refreshAccessToken,
+    forgetPassword
 }
