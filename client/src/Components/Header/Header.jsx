@@ -9,7 +9,6 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isDropDownOpen,setIsDropDownOpen]=useState(false);
   const {user,token} = useSelector(state=>state.auth);
-  const fallback = user?.fullname ? user.fullname.charAt(0).toUpperCase() : "?";
   
   const dispatch=useDispatch();
   const navigate=useNavigate();
@@ -24,6 +23,10 @@ export default function Header() {
       navigate("/auth",{replace:true})
     }
   },[token,navigate]);
+
+  const checkProfile=async()=>{
+    navigate("/app/profile")
+  }
 
   return (
     <header className="sticky top-0 shadow-md z-50">
@@ -81,14 +84,10 @@ export default function Header() {
               </div>
 
               {isDropDownOpen && (
-                <div className="absolute flex flex-col items-center bg-black text-white mt-2 rounded-lg w-50 shadow-lg border z-50"> 
-                  <div className="pt-2">
-                    <p className="font-semibold text-lg mb-1">{user.fullname}</p>
-                    <hr className="bg-white" />
-                    <p className="text-lg mt-1">
-                      {user.email ?? user.phone}
-                    </p>
-                  </div>
+                <div className="absolute flex flex-col items-center bg-black text-white mt-2 rounded-lg w-35 shadow-lg border z-50"> 
+                  <button onClick={checkProfile} className="block py-3 pr-5 pl-5 w-full rounded-lg hover:bg-gray-300">
+                    Profile
+                  </button>
 
                   <button onClick={handleLogout} className="block py-3 pr-5 pl-5 w-full rounded-lg hover:bg-gray-300">
                     Logout

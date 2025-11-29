@@ -32,9 +32,9 @@ const registerUser= asyncHandler( async (req,res)=>{
 
 
     //console.log(req.body)
-    const {email,fullname,password,username,grade} = req.body
+    const {email,phoneNumber,fullname,password,username,grade} = req.body
 
-    if ([fullname,email,password,username,grade].some((field)=> field?.trim()==="")){
+    if ([fullname,phoneNumber,email,password,username,grade].some((field)=> typeof field !== "string" || field?.trim()==="")){
         throw new apiError(400,"All fields are required!!")
     }
 
@@ -58,6 +58,7 @@ const registerUser= asyncHandler( async (req,res)=>{
     const user = await User.create({
         fullname,
         email,
+        phoneNumber,
         username:username.toLowerCase(),
         grade,
         password,
@@ -224,10 +225,70 @@ const forgetPassword=asyncHandler(async(req,res)=>{
         )
     )
 })
+
+const getCurrentUser= asyncHandler(async(req,res)=>{
+    return res.status(200)
+    .json(200,req.user,"Current User fetched successfully")
+})
+
+const updateProfile=asyncHandler(async(req,res)=>{
+    const {fullname,phoneNumber,grade,email}=req.body
+
+    if(!fullname || !email || !phoneNumber || !grade){
+        throw new apiError(400,"Fields are required");
+    }
+
+    const user =await User.findByIdAndUpdate(
+        req.user?._id,
+        {
+            $set:{
+                fullname,
+                email,
+                phoneNumber,
+                grade,
+            }
+        },
+        {
+            new:true,
+        }
+    )
+
+    return res.status(200)
+    .json(new apiResponse(200,user,"Accout details updated successfully"))
+})
+
+const updateUserAvatar=asyncHandler(async(req,res)=>{
+    const avatarLocalPath=req.files?.path
+    
+    if(!avatarLocalPath){
+        throw new apiError(400,"Avatar file is missing")
+    }
+
+    const avatar = await uploadOnCloudinary(avatarLocalPath)
+
+    if(!avatar.url){
+        throw new apiError(400,"Error while uploading on cloudinary")
+    }
+
+    const user= await User.findByIdAndUpdate(
+        req.user?._id,
+        {
+            $set:{
+                avatar:avatar.url,
+            }
+        },
+        {
+            new:true,
+        }
+    )
+})
 export {
     registerUser,
     loginUser,
     logOutUser,
     refreshAccessToken,
-    forgetPassword
+    forgetPassword,
+    getCurrentUser,
+    updateProfile,
+    updateUserAvatar
 }

@@ -24,8 +24,12 @@ const userSchema = new Schema({
         trim:true,
         index:true
     },
+    phoneNumber:{
+        type:String,
+        required:true,
+    },
     grade:{
-        type:Number,
+        type:String,
         required:true,
     },
     password:{

@@ -1,7 +1,18 @@
 import { Brain, Compass, Target, Users } from "lucide-react";
 import "./Home.css";
+import { useNavigate } from "react-router";
+import { useEffect } from "react";
 
-export default function Home({ onStartQuiz }) {
+
+export default function Home() {
+  const navigate=useNavigate();
+  const onStartQuiz=async ()=>{
+    navigate("/app/quiz",{replace:true});
+  }
+  const handleExplore=async ()=>{
+    navigate("/app/explore-careers",{replace:true});
+  }
+
   const features = [
     {
       icon: Brain,
@@ -47,7 +58,7 @@ export default function Home({ onStartQuiz }) {
                 <button onClick={onStartQuiz} className="hero-button primary">
                   Take Career Quiz
                 </button>
-                <button className="hero-button secondary">
+                <button onClick={handleExplore} className="hero-button secondary">
                   Explore Careers
                 </button>
               </div>

@@ -20,9 +20,10 @@ import CareerQuiz from "./Pages/Career-Quiz/CareerQuiz.jsx";
 import CareerExploration from "./Pages/Career-Exploration/CareerExploration.jsx";
 import Resources from "./Pages/Resources/Resources.jsx";
 import AuthForm from "./Pages/AuthLanding/AuthForm.jsx";
-import Profile from "./Pages/AuthLanding/Profile.jsx";
+import Info from "./Pages/AuthLanding/Info.jsx";
 import ForgetPassword from "./Pages/AuthLanding/ForgetPassword.jsx";
 import Contact from "./Pages/Contact/Contact.jsx";
+import Profile from "./Pages/Profile/Profile.jsx"
 
 import ProtectedRoutes from "./utils/ProtectedRoutes.jsx";
 import App from "./App.jsx";
@@ -35,7 +36,7 @@ const router = createBrowserRouter(
 
       {/* Public Route */}
       <Route path="/auth" element={<AuthForm />} />
-      <Route path="/auth/signupDetails" element={<Profile/>}/>
+      <Route path="/auth/signupDetails" element={<Info/>}/>
       <Route path="/auth/forgetPassword" element={<ForgetPassword/>}/>
 
       {/* Protected Routes */}
@@ -47,6 +48,7 @@ const router = createBrowserRouter(
           <Route path="explore-careers" element={<CareerExploration />} />
           <Route path="resources" element={<Resources />} />
           <Route path="contact" element={<Contact />} />
+          <Route path="profile" element={<Profile/>} />
         </Route>
       </Route>
     </>

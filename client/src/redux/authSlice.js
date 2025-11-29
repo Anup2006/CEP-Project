@@ -18,12 +18,13 @@ const loginUser=createAsyncThunk(
 
 const signupUser=createAsyncThunk(
     "auth/signUpUser",
-    async({email,username,fullname,grade,avatar,password},{rejectWithValue})=>{
+    async({email,username,phoneNumber,fullname,grade,avatar,password},{rejectWithValue})=>{
         try {
             const formData = new FormData();
             formData.append("email",email);
             formData.append("username", username);
             formData.append("fullname", fullname);
+            formData.append("phoneNumber", phoneNumber);
             formData.append("grade", grade);
             formData.append("password", password);
 
