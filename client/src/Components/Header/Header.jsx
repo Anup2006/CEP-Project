@@ -26,6 +26,7 @@ export default function Header() {
 
   const checkProfile=async()=>{
     navigate("/app/profile")
+    setIsDropDownOpen(false)
   }
 
   return (
@@ -74,13 +75,15 @@ export default function Header() {
             <div className="relative">
               <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center font-bold text-2xl cursor-pointer " 
                 onClick={()=>setIsDropDownOpen(!isDropDownOpen)}>
-                  {user.avatar? (
+                  {user?.avatar? (
                     <img 
                       src={user.avatar} 
-                      alt={user.fullname.charAt(0).toUpperCase()} 
+                      alt={user?.fullname?.charAt(0).toUpperCase() || "U"} 
                       className="rounded-full w-12 h-12"
                     />
-                  ):(fallback)}
+                  ):(
+                     <span>{user?.fullname?.charAt(0).toUpperCase() || "U"}</span>
+                  )}
               </div>
 
               {isDropDownOpen && (

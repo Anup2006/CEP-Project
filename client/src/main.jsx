@@ -23,6 +23,7 @@ import AuthForm from "./Pages/AuthLanding/AuthForm.jsx";
 import Info from "./Pages/AuthLanding/Info.jsx";
 import ForgetPassword from "./Pages/AuthLanding/ForgetPassword.jsx";
 import Contact from "./Pages/Contact/Contact.jsx";
+import UpdateProfile from "./Pages/Profile/UpdateProfile.jsx"
 import Profile from "./Pages/Profile/Profile.jsx"
 
 import ProtectedRoutes from "./utils/ProtectedRoutes.jsx";
@@ -48,6 +49,7 @@ const router = createBrowserRouter(
           <Route path="explore-careers" element={<CareerExploration />} />
           <Route path="resources" element={<Resources />} />
           <Route path="contact" element={<Contact />} />
+          <Route path="update-profile" element={<UpdateProfile/>} />
           <Route path="profile" element={<Profile/>} />
         </Route>
       </Route>

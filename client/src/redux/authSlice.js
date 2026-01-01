@@ -61,6 +61,26 @@ const logoutUser=createAsyncThunk(
     }
 )
 
+const updateAvatar=createAsyncThunk(
+    "/update-profile",
+    async({avatar},{rejectWithValue})=>{
+        try {
+            const formData = new FormData();
+            formData.append("avatar", avatar);
+            const response = await axios.post(`${BACKEND_URL}/update-avatar`,
+                formData,
+                {
+                    headers:{ "Content-Type" : "multipart/form-data"}
+                }
+            );
+            return response.data;
+        } catch (error) {
+            console.log(error);
+            return rejectWithValue(error.response?.data || "Avatar Upload Failed")
+        }
+    }
+)
+
 const initialState = {
     user:JSON.parse(localStorage.getItem("user")) || null,
     token:localStorage.getItem("token") || null,
@@ -137,9 +157,28 @@ export const authSlice = createSlice({
             action.payload?.error ||
             "Logout failed";
         })
+
+        //update Avatar
+        .addCase(updateAvatar.pending,(state,action)=>{
+            state.loading=true;
+            state.error=null;
+        })
+        .addCase(updateAvatar.fulfilled,(state,action)=>{
+            state.loading=false;
+            state.user=action.payload?.data.user;
+            state.error=null;
+
+            localStorage.setItem("user",JSON.stringify(action.payload.data.user));
+        })
+        .addCase(updateAvatar.rejected,(state,action)=>{
+            state.loading=false;
+            state.error=action.payload?.message ||
+            action.payload?.error ||
+            "Avatar Update failed";
+        })
     }
 }) 
 
 export const {} = authSlice.actions;
-export {loginUser,signupUser,logoutUser};
+export {loginUser,signupUser,logoutUser,updateAvatar};
 export default authSlice.reducer;

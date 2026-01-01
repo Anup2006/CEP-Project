@@ -258,7 +258,7 @@ const updateProfile=asyncHandler(async(req,res)=>{
 })
 
 const updateUserAvatar=asyncHandler(async(req,res)=>{
-    const avatarLocalPath=req.files?.path
+    const avatarLocalPath=req.files?.avatar[0].path
     
     if(!avatarLocalPath){
         throw new apiError(400,"Avatar file is missing")
@@ -281,7 +281,11 @@ const updateUserAvatar=asyncHandler(async(req,res)=>{
             new:true,
         }
     )
+
+    return res.status(200)
+    .json(new apiResponse(200,{user:user},"User avatar is updated successfully"))
 })
+
 export {
     registerUser,
     loginUser,
