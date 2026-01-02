@@ -3,6 +3,7 @@ import {apiError} from "../utils/apiError.js";
 import { User } from "../models/user.model.js";
 import {uploadOnCloudinary} from "../utils/cloudinary.js";
 import {apiResponse} from "../utils/apiResponse.js";
+import { sendOTPEmail,generateOTP } from "../utils/otp.js";
 
 const generateAccessAndRefreshTokens=async(userId)=>{
     try {
@@ -20,17 +21,6 @@ const generateAccessAndRefreshTokens=async(userId)=>{
 }
 
 const registerUser= asyncHandler( async (req,res)=>{
-    //get user details from frontend 
-    //validation 
-    //check if user already exists by username and email
-    //check for avatar
-    //upload them on cloudinary and check 
-    //create user object - create entry in db 
-    //remove password and refresh token field from response
-    //check for user creation 
-    //return res 
-
-
     //console.log(req.body)
     const {email,password,username} = req.body
 
@@ -55,11 +45,68 @@ const registerUser= asyncHandler( async (req,res)=>{
 
     // const avatar= await uploadOnCloudinary(avatarLocalPath)
 
+    const otp=generateOTP();
+
     const user = await User.create({
         email,
         username:username.toLowerCase(),
         password,
+        emailOTP: otp,
+        emailOTPExpires: Date.now() + 10 * 60 * 1000, // 10 min
+        isEmailVerified: false
     })
+
+    await sendOTPEmail(email, otp);
+
+    return res.status(201).json(
+        new apiResponse(
+        200,
+        { userId: user._id },
+        "OTP sent to email. Please verify."
+        )   
+    );
+})
+
+const resendOtp=asyncHandler(async(req,res)=>{
+    const { userId } = req.body;
+
+    const user = await User.findById(userId);
+    if (!user) throw new apiError(404, "User not found");
+
+    const otp = generateOTP();
+    user.emailOTP = otp;
+    user.emailOTPExpires = Date.now() + 10 * 60 * 1000;
+    await user.save();
+
+    await sendOTPEmail(user.email, otp);
+
+    res.status(200).json({
+        success: true,
+        message: "OTP resent successfully"
+    });
+})
+
+const verifyEmailOtp= asyncHandler(async(req,res)=>{
+    const {userId,otp}=req.body;
+    const user = await User.findById(userId)
+
+    if(!user){
+        throw new apiError(404, "User not found");
+    }
+    
+    if (user.emailOTP !== otp.toString()) {
+        throw new apiError(400, "Invalid OTP");
+    }
+
+    if (user.emailOTPExpires < Date.now()) {
+        throw new apiError(400, "OTP expired");
+    }
+
+    user.isEmailVerified = true;
+    user.emailOTP = undefined;
+    user.emailOTPExpires = undefined;
+
+    await user.save();
 
     const createdUser =  await User.findById(user._id).select(
         "-password -refreshToken"
@@ -410,5 +457,7 @@ export {
     updateProfile,
     updateUserAvatar,
     googleLogin,
-    googleSignUp
+    googleSignUp,
+    verifyEmailOtp,
+    resendOtp,
 }

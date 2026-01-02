@@ -21,9 +21,35 @@ const signupUser=createAsyncThunk(
     async({email,username,password},{rejectWithValue})=>{
         try {
             const response = await axios.post(`${BACKEND_URL}/register`,{email,password,username});
+            // backend sends {userId, message}
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response.data); //sends your backend error message to the frontend
+        }
+    }
+)
+
+const verifyOtpUser=createAsyncThunk(
+    "auth/verifyOtpUser",
+    async ({ userId, otp }, { rejectWithValue }) => {
+        try {
+        const response = await axios.post(`${BACKEND_URL}/verify-otp`, { userId, otp }, { withCredentials: true });
+        // Backend returns full user + tokens
+        return response.data;
+        } catch (error) {
+        return rejectWithValue(error.response?.data);
+        }
+    }
+)
+
+const resendOtpUser=createAsyncThunk(
+    "auth/resendOtpUser",
+    async ({ userId }, { rejectWithValue }) => {
+        try {
+            const res = await axios.post(`${BACKEND_URL}/resend-otp`, {userId});
+            return res.data;
+        } catch (err) {
+            return rejectWithValue(err.response?.data || err.message);
         }
     }
 )
@@ -84,12 +110,24 @@ const initialState = {
     user:JSON.parse(localStorage.getItem("user")) || null,
     token:localStorage.getItem("token") || null,
     loading:false,
+    resending:false,
     error:null,
+    otpUserId: null, 
+    otpEmail: null,
 }
 
 export const authSlice = createSlice({
     name: 'auth', 
     initialState,
+    reducers: {
+        setOtpEmail: (state, action) => {
+            state.otpEmail = action.payload;
+        },
+        clearOtpState: (state) => {
+            state.otpUserId = null;
+            state.otpEmail = null;
+        },
+    },
     extraReducers: (builder)=>{
         builder
         //login
@@ -122,18 +160,45 @@ export const authSlice = createSlice({
         })
         .addCase(signupUser.fulfilled,(state,action)=>{
             state.loading=false;
-            state.user=action.payload.data.user;
-            state.token=action.payload.data.accessToken;
+            state.otpUserId = action.payload.data.userId;
             state.error=null;
-
-            localStorage.setItem("token",action.payload.data.accessToken);
-            localStorage.setItem("user",JSON.stringify(action.payload.data.user));
         })
         .addCase(signupUser.rejected,(state,action)=>{
             state.loading=false;
             state.error=action.payload?.message ||
             action.payload?.error ||
             "Sign Up failed";
+        })
+
+        //verify Otp
+        .addCase(verifyOtpUser.pending, state => { 
+            state.loading = true; 
+            state.error = null;
+        })
+        .addCase(verifyOtpUser.fulfilled, (state, action) => {
+            state.loading = false;
+            state.user = action.payload.data.user;
+            state.token = action.payload.data.accessToken;
+            state.otpUserId = null;
+            state.otpEmail = null;
+         
+            localStorage.setItem("token", action.payload.data.accessToken);
+            localStorage.setItem("user", JSON.stringify(action.payload.data.user));
+        })
+        .addCase(verifyOtpUser.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload?.message || "OTP verification failed";
+        })
+
+        // resend Otp
+        .addCase(resendOtpUser.pending, (state) => {
+            state.resending = true;
+        })
+        .addCase(resendOtpUser.fulfilled, (state) => {
+            state.resending = false;
+        })
+        .addCase(resendOtpUser.rejected, (state) => {
+            state.resending = false;
         })
 
         // Google login/signup
@@ -156,7 +221,6 @@ export const authSlice = createSlice({
             action.payload?.error ||
             "Sign Up failed";
         })
-
 
         //logout
         .addCase(logoutUser.pending,(state)=>{
@@ -200,6 +264,6 @@ export const authSlice = createSlice({
     }
 }) 
 
-export const {} = authSlice.actions;
-export {loginUser,signupUser,logoutUser,updateAvatar, googleLoginUser};
+export const {setOtpEmail,clearOtpState} = authSlice.actions;
+export {loginUser,signupUser, verifyOtpUser, logoutUser,updateAvatar, googleLoginUser};
 export default authSlice.reducer;

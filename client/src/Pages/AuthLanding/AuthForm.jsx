@@ -6,15 +6,16 @@ import GoogleButton from "./GoogleButton.jsx";
 import PhoneButton from "./PhoneButton.jsx";
 import {toast} from "sonner";
 import {useDispatch,useSelector} from 'react-redux';
-import {loginUser,signupUser} from '../../redux/authSlice.js';
+import {loginUser,signupUser, resendOtpUser,setOtpEmail,verifyOtpUser,clearOtpState} from '../../redux/authSlice.js';
 import { NavLink } from "react-router";
+import OtpForm from "./OtpForm.jsx";
 
 
 export default function AuthForm(){
     const [activeTab, setActiveTab] = useState("login");
     const [loginMethod, setLoginMethod] = useState("email");
-    const {token,loading, error} = useSelector((state)=>state.auth);
-    const [authType,setAuthType] = useState("");
+    const {token,loading, otpUserId, resending,otpEmail} = useSelector((state)=>state.auth);
+    const [otp, setOtp] = useState("");
 
     // Login form state        
     const [loginEmail, setLoginEmail] = useState("");
@@ -38,7 +39,6 @@ export default function AuthForm(){
             return;
         }
         dispatch(loginUser({email:identifier,password:loginPassword}))
-        setAuthType("login")
     }
 
     const handleSignup = async (e) => {
@@ -51,19 +51,49 @@ export default function AuthForm(){
             username:username,
             password:signupPassword,
         }))
-        setAuthType("signUp")
+        dispatch(setOtpEmail(signupEmail));
+
     }
+
+    const handleVerifyOtp= ()=>{
+        if (otp.length !== 6) return toast.error("Enter 6-digit OTP");
+        dispatch(verifyOtpUser({ userId: otpUserId, otp }))
+            .unwrap()
+            .then(() => toast.success("Email verified & logged in!"))
+            .catch(err => toast.error(err?.message || "OTP verification failed"));
+    }
+
+    
+    const handleResendOtp = () => {
+        dispatch(resendOtpUser({ userId: otpUserId }))
+            .unwrap()
+            .then(() => toast.success("OTP resent to your email"))
+            .catch(() => toast.error("Failed to resend OTP"));
+    };
 
     useEffect(() => {
         if (token) {
-            toast.success(
-                authType === "login"
-                    ? "Successfully Logged In!"
-                    : "Successfully Signed Up!"
-            )
             navigate("/app", { replace: true });
         }
-    }, [token,authType,navigate]);
+    }, [token,navigate]);
+    
+    if (otpUserId) {
+        return (
+        <OtpForm
+            email={otpEmail}
+            otp={otp}
+            setOtp={setOtp}
+            handleVerifyOtp={handleVerifyOtp}
+            handleResendOtp={handleResendOtp}
+            loading={loading}
+            resending={resending}
+            onBack={() => {
+                setOtp(""),
+                dispatch(clearOtpState());
+            }}
+        />
+        );
+    }
 
     return (
         <>
@@ -297,6 +327,7 @@ export default function AuthForm(){
                                             <button
                                                 type="submit"
                                                 disabled={loading}
+
                                                 className="w-full bg-black hover:bg-gray-200 hover:text-black text-white  p-2 rounded-md disabled:opacity-50 transition-all"
                                             >
                                                 {loading ? "Creating Account..." : "Sign Up"}

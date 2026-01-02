@@ -1,5 +1,5 @@
 import {Router} from "express";
-import { googleLogin,googleSignUp,forgetPassword, loginUser, logOutUser, refreshAccessToken, registerUser, updateProfile, updateUserAvatar } from "../controllers/user.controller.js";
+import { googleLogin,googleSignUp,forgetPassword, loginUser, logOutUser, refreshAccessToken, registerUser, updateProfile, updateUserAvatar, verifyEmailOtp, resendOtp } from "../controllers/user.controller.js";
 import {upload} from "../middlewares/multer.middleware.js";
 import { verifyJwt } from "../middlewares/auth.middleware.js";
 
@@ -14,6 +14,8 @@ router.route("/register").post(
     ]),
     registerUser
 )
+router.route("/verify-otp").post(verifyEmailOtp)
+router.route("/resend-otp").post(resendOtp)
 router.route("/login").post(loginUser)
 
 //secured routes
