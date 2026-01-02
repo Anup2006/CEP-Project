@@ -48,6 +48,12 @@ export default function Header() {
               </NavLink>
             </li>
             <li>
+              <NavLink to="/app/dashboard" className={({isActive})=> 
+                `block py-3 pr-5 pl-5 rounded-lg hover:bg-gray-300 ${isActive? "text-white bg-black":"text-black bg-white"}`} >
+                Dashboard
+              </NavLink>
+            </li>
+            <li>
               <NavLink to="/app/quiz" className={({isActive})=> 
                 `block py-3 pr-5 pl-5 rounded-lg hover:bg-gray-300 ${isActive? "text-white bg-black":"text-black bg-white"}`} >
                 Career Quiz
@@ -87,10 +93,11 @@ export default function Header() {
               </div>
 
               {isDropDownOpen && (
-                <div className="absolute flex flex-col items-center bg-black text-white mt-2 rounded-lg w-35 shadow-lg border z-50"> 
-                  <button onClick={checkProfile} className="block py-3 pr-5 pl-5 w-full rounded-lg hover:bg-gray-300">
-                    Profile
-                  </button>
+                <div className="absolute flex flex-col items-center bg-black text-white mt-2 rounded-lg shadow-lg border z-50"> 
+                  <div className="flex flex-col py-3 pr-5 pl-5  w-full rounded-lg hover:bg-gray-300 overflow-hidden">
+                    <p>{user.fullname}</p>
+                    <p>{user.email}</p>
+                  </div>
 
                   <button onClick={handleLogout} className="block py-3 pr-5 pl-5 w-full rounded-lg hover:bg-gray-300">
                     Logout
@@ -121,6 +128,11 @@ export default function Header() {
               <li>
                 <NavLink to="/app/home" className="block py-2 px-4 rounded-lg hover:bg-gray-300" onClick={() => setMobileMenuOpen(false)}>
                   Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/app/dashboard" className="block py-2 px-4 rounded-lg hover:bg-gray-300" onClick={() => setMobileMenuOpen(false)}>
+                  Dashboard
                 </NavLink>
               </li>
               <li>

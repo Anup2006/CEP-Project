@@ -18,24 +18,9 @@ const loginUser=createAsyncThunk(
 
 const signupUser=createAsyncThunk(
     "auth/signUpUser",
-    async({email,username,phoneNumber,fullname,grade,avatar,password},{rejectWithValue})=>{
+    async({email,username,password},{rejectWithValue})=>{
         try {
-            const formData = new FormData();
-            formData.append("email",email);
-            formData.append("username", username);
-            formData.append("fullname", fullname);
-            formData.append("phoneNumber", phoneNumber);
-            formData.append("grade", grade);
-            formData.append("password", password);
-
-            if(avatar){
-                formData.append("avatar",avatar);
-            }
-            const response = await axios.post(`${BACKEND_URL}/register`,
-                formData,
-                {headers:{"Content-Type":"multipart/form-data"}}
-            );
-            console.log(response.data);
+            const response = await axios.post(`${BACKEND_URL}/register`,{email,password,username});
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response.data); //sends your backend error message to the frontend
@@ -80,6 +65,20 @@ const updateAvatar=createAsyncThunk(
         }
     }
 )
+
+const googleLoginUser = createAsyncThunk(
+  "auth/googleLoginUser",
+  async ({ token, isSignup }, { rejectWithValue }) => {
+    try {
+      const endpoint = isSignup ? "googleSignup" : "googleLogin";
+      const res = await axios.post(`${BACKEND_URL}/${endpoint}`, { token }, { withCredentials: true });
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || "Google auth failed");
+    }
+  }
+);
+
 
 const initialState = {
     user:JSON.parse(localStorage.getItem("user")) || null,
@@ -137,6 +136,28 @@ export const authSlice = createSlice({
             "Sign Up failed";
         })
 
+        // Google login/signup
+        .addCase(googleLoginUser.pending, (state) => { 
+            state.loading = true; 
+            state.error = null 
+        })
+        .addCase(googleLoginUser.fulfilled, (state, action) => {
+            state.loading = false;
+            state.user = action.payload.data.user;
+            state.token=action.payload.data.accessToken;
+            state.error=null;
+
+            localStorage.setItem("token",action.payload.data.accessToken);
+            localStorage.setItem("user",JSON.stringify(action.payload.data.user));
+        })
+        .addCase(googleLoginUser.rejected, (state, action) => { 
+            state.loading = false; 
+            state.error=action.payload?.message ||
+            action.payload?.error ||
+            "Sign Up failed";
+        })
+
+
         //logout
         .addCase(logoutUser.pending,(state)=>{
             state.loading=true;
@@ -180,5 +201,5 @@ export const authSlice = createSlice({
 }) 
 
 export const {} = authSlice.actions;
-export {loginUser,signupUser,logoutUser,updateAvatar};
+export {loginUser,signupUser,logoutUser,updateAvatar, googleLoginUser};
 export default authSlice.reducer;

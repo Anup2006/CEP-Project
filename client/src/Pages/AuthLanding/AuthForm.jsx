@@ -6,15 +6,15 @@ import GoogleButton from "./GoogleButton.jsx";
 import PhoneButton from "./PhoneButton.jsx";
 import {toast} from "sonner";
 import {useDispatch,useSelector} from 'react-redux';
-import {loginUser} from '../../redux/authSlice.js';
+import {loginUser,signupUser} from '../../redux/authSlice.js';
 import { NavLink } from "react-router";
 
 
 export default function AuthForm(){
     const [activeTab, setActiveTab] = useState("login");
     const [loginMethod, setLoginMethod] = useState("email");
-    const[next,setNext]=useState(false);
     const {token,loading, error} = useSelector((state)=>state.auth);
+    const [authType,setAuthType] = useState("");
 
     // Login form state        
     const [loginEmail, setLoginEmail] = useState("");
@@ -38,28 +38,32 @@ export default function AuthForm(){
             return;
         }
         dispatch(loginUser({email:identifier,password:loginPassword}))
-
+        setAuthType("login")
     }
-    useEffect(() => {
-        if (token) {
-            toast.success("Successfully Login!!")
-            navigate("/app", { replace: true });
-        }
-    }, [token, navigate]);
 
-    const handleNext = async (e) => {
+    const handleSignup = async (e) => {
         e.preventDefault();
         if (!username || !signupEmail || !signupPassword){
             return toast.error("Please fill all fields");
         }
-        setNext(true)
+        dispatch(signupUser({
+            email:signupEmail,
+            username:username,
+            password:signupPassword,
+        }))
+        setAuthType("signUp")
     }
+
     useEffect(() => {
-        if(next){
-            const data = { username, signupEmail,signupPassword}; // your form data
-            navigate("/auth/signupDetails", { state: data , replace :true});     
+        if (token) {
+            toast.success(
+                authType === "login"
+                    ? "Successfully Logged In!"
+                    : "Successfully Signed Up!"
+            )
+            navigate("/app", { replace: true });
         }
-    },[next,navigate]);
+    }, [token,authType,navigate]);
 
     return (
         <>
@@ -102,7 +106,7 @@ export default function AuthForm(){
                                         animate={{ opacity: 1 }}
                                         exit={{ opacity: 0 }}
                                     >
-                                        <GoogleButton/>
+                                        <GoogleButton isSignup={false} />
                                         <PhoneButton/>
                                         <div className="relative my-6">
                                             <hr />
@@ -212,7 +216,7 @@ export default function AuthForm(){
                                         animate={{ opacity: 1 }}
                                         exit={{ opacity: 0 }}
                                     >
-                                        <GoogleButton/>
+                                        <GoogleButton isSignup={true}/>
                                         <PhoneButton/>
                                         <div className="relative my-6">
                                             <hr />
@@ -221,7 +225,7 @@ export default function AuthForm(){
                                             </span>
                                         </div>
             
-                                        <form onSubmit={handleNext} className="space-y-4">
+                                        <form onSubmit={handleSignup} className="space-y-4">
                                             {/* Username */}
                                             <div className="space-y-1">
                                                 <label
@@ -290,12 +294,12 @@ export default function AuthForm(){
                                                     Minimum 6 characters
                                                 </p>
                                             </div>
-
                                             <button
                                                 type="submit"
+                                                disabled={loading}
                                                 className="w-full bg-black hover:bg-gray-200 hover:text-black text-white  p-2 rounded-md disabled:opacity-50 transition-all"
                                             >
-                                                Next
+                                                {loading ? "Creating Account..." : "Sign Up"}
                                             </button>
                                         </form>
                                     </motion.div>

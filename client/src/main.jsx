@@ -20,14 +20,23 @@ import CareerQuiz from "./Pages/Career-Quiz/CareerQuiz.jsx";
 import CareerExploration from "./Pages/Career-Exploration/CareerExploration.jsx";
 import Resources from "./Pages/Resources/Resources.jsx";
 import AuthForm from "./Pages/AuthLanding/AuthForm.jsx";
-import Info from "./Pages/AuthLanding/Info.jsx";
+import Info from "./Pages/Dashboard/Info.jsx";
 import ForgetPassword from "./Pages/AuthLanding/ForgetPassword.jsx";
 import Contact from "./Pages/Contact/Contact.jsx";
-import UpdateProfile from "./Pages/Profile/UpdateProfile.jsx"
-import Profile from "./Pages/Profile/Profile.jsx"
+import UpdateProfile from "./Pages/Dashboard/UpdateProfile.jsx"
+import Dashboard from "./Pages/Dashboard/Dashboard.jsx"
 
 import ProtectedRoutes from "./utils/ProtectedRoutes.jsx";
 import App from "./App.jsx";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+
+const GoogleAuthWrapper=()=>{
+  return (
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+      <AuthForm/>
+    </GoogleOAuthProvider>
+  )
+}
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,7 +45,7 @@ const router = createBrowserRouter(
       <Route path="/" element={<Navigate to="/auth" replace />} />
 
       {/* Public Route */}
-      <Route path="/auth" element={<AuthForm />} />
+      <Route path="/auth" element={<GoogleAuthWrapper/>} />
       <Route path="/auth/signupDetails" element={<Info/>}/>
       <Route path="/auth/forgetPassword" element={<ForgetPassword/>}/>
 
@@ -50,7 +59,7 @@ const router = createBrowserRouter(
           <Route path="resources" element={<Resources />} />
           <Route path="contact" element={<Contact />} />
           <Route path="update-profile" element={<UpdateProfile/>} />
-          <Route path="profile" element={<Profile/>} />
+          <Route path="dashboard" element={<Dashboard/>} />
         </Route>
       </Route>
     </>

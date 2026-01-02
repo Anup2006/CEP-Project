@@ -1,5 +1,5 @@
 import {Router} from "express";
-import { forgetPassword, loginUser, logOutUser, refreshAccessToken, registerUser, updateProfile, updateUserAvatar } from "../controllers/user.controller.js";
+import { googleLogin,googleSignUp,forgetPassword, loginUser, logOutUser, refreshAccessToken, registerUser, updateProfile, updateUserAvatar } from "../controllers/user.controller.js";
 import {upload} from "../middlewares/multer.middleware.js";
 import { verifyJwt } from "../middlewares/auth.middleware.js";
 
@@ -31,6 +31,7 @@ router.route("/update-avatar").post(
     ]),    
     updateUserAvatar
 ) 
-
+router.route("/googleLogin").post(googleLogin)
+router.route("/googleSignup").post(googleSignUp)
 
 export default router

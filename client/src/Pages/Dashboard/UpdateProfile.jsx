@@ -44,14 +44,13 @@ export default function UpdateProfile(){
                 <div className="flex flex-col md:flex-row bg-blue-100 shadow-xl w-full items-center justify-evenly rounded-3xl">
                     <div className="flex flex-col w-full pt-5 pb-5 rounded-l-2xl justify-center items-center text-center ">
                         <div className="pt-10 p-15 w-full">
-                            <div className="flex justify-center w-full z=50  mb-10 ">
-                                <span className="flex gap-1 justify-center">
+                            <div className="flex gap-1 justify-center w-full z=50  mb-10 ">
+                                <span className="flex items-center font-bold text-2xl cursor-pointer text-gray-700 w-32 h-32 rounded-full bg-gray-100 justify-center">
                                     <img 
                                         src={previewUrl}
                                         alt="Profile Pic" 
-                                        className="z=50 w-40 h-40 rounded-full"
+                                        className=" mt-15 w-full h-full rounded-full object-cover"
                                         />
-                                    <Edit onClick={()=>{document.getElementById("avatar").click()}}/>
                                     <input  
                                         id="avatar"
                                         type="file"
@@ -65,6 +64,7 @@ export default function UpdateProfile(){
                                         className="hidden"
                                     />
                                 </span>
+                                <Edit onClick={()=>{document.getElementById("avatar").click()}}/>
                             </div>
                             <form onSubmit={handleSubmit} className="flex flex-col ">
                                 <div className="flex flex-row gap-5 mb-6 ">

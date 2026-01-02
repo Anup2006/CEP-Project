@@ -18,23 +18,38 @@ const userSchema = new Schema({
         lowercase:true,
         trim:true,
     },
+    googleId: {
+      type: String,
+      unique: true,
+      sparse: true, // allows null for email users
+    },
+    provider: {
+      type: String,
+      enum: ["local", "google"],
+      default: "local",
+    },
     fullname:{
         type:String,
-        required:true,
+        default:"-",
+        // required:true,
         trim:true,
         index:true
     },
     phoneNumber:{
         type:String,
-        required:true,
+        default: "xxxxxxxxxx",
+        // required:true,
     },
     grade:{
         type:String,
-        required:true,
+        default:"-",
+        // required:true,
     },
     password:{
         type:String,
-        required:true,
+        required: function () {
+            return this.provider === "local";
+        },
     },
     avatar:{
         type:String,
