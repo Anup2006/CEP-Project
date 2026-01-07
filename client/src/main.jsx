@@ -29,6 +29,7 @@ import Dashboard from "./Pages/Dashboard/Dashboard.jsx"
 import ProtectedRoutes from "./utils/ProtectedRoutes.jsx";
 import App from "./App.jsx";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import AdminDashboard from "./Pages/Admin/AdminDashboard.jsx";
 
 const GoogleAuthWrapper=()=>{
   return (
@@ -60,6 +61,7 @@ const router = createBrowserRouter(
           <Route path="contact" element={<Contact />} />
           <Route path="update-profile" element={<UpdateProfile/>} />
           <Route path="dashboard" element={<Dashboard/>} />
+          <Route path="admindashboard" element={<AdminDashboard/>} />
         </Route>
       </Route>
     </>

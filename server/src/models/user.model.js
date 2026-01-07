@@ -59,7 +59,11 @@ const userSchema = new Schema({
     },
     isEmailVerified: {
         type: Boolean,
-        default: false
+    },
+    role: {
+        type: String,
+        enum: ["student", "mentor", "admin"],
+        default: "student",
     },
 
     emailOTP: String,

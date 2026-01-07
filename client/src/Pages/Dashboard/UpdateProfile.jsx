@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch,useSelector } from "react-redux";
 import {Edit} from "lucide-react";
-import { updateAvatar } from "../../redux/authSlice";
+import { updateAvatar } from "../../redux/authSlice.js";
 
 export default function UpdateProfile(){
     const [formData, setFormData] = useState({

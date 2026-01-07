@@ -47,10 +47,15 @@ const registerUser= asyncHandler( async (req,res)=>{
 
     const otp=generateOTP();
 
+    const isSuperAdmin =
+        email === process.env.SUPER_ADMIN_EMAIL;
+    
+
     const user = await User.create({
         email,
         username:username.toLowerCase(),
         password,
+        role: isSuperAdmin ? "admin" : "student",
         emailOTP: otp,
         emailOTPExpires: Date.now() + 10 * 60 * 1000, // 10 min
         isEmailVerified: false
@@ -359,12 +364,10 @@ const googleLogin = asyncHandler(async(req,res)=>{
 
   let user = await User.findOne({ email });
 
-  // ❌ No user → must signup
   if (!user) {
     throw new apiError(404, "User not found. Please sign up.");
   }
 
-  // 🔗 LINK GOOGLE ACCOUNT (email user → google)
   if (!user.googleId) {
     user.googleId = sub;
     user.avatar = picture;
@@ -406,20 +409,23 @@ const googleSignUp = asyncHandler(async(req,res)=>{
 
     const { sub, email, name, picture } = await getGoogleUser(token);
 
-    // Check if user already exists
     const existedUser = await User.findOne({ email });
     if (existedUser) {
         throw new apiError(409, "User already exists. Please login.");
     }
 
-    // Create user
+    const isSuperAdmin =
+        (email === process.env.SUPER_ADMIN_EMAIL);
+
     const user = await User.create({
         fullname: name,
         email,
+        role: isSuperAdmin ? "admin" : "student",
         googleId: sub,
         avatar: picture,
         provider: "google",
-        username: email.split("@")[0], // auto username
+        isEmailVerified: true,
+        username: email.split("@")[0], 
     });
 
     const { accessToken, refreshToken } =
