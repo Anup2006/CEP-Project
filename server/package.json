@@ -11,7 +11,8 @@
   "author": "Anup Padwalkar",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js"
+    "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
+    "seed": "node src/seeds/careers.seed.js"
   },
   "devDependencies": {
     "nodemon": "^3.1.10",

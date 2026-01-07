@@ -265,5 +265,5 @@ export const authSlice = createSlice({
 }) 
 
 export const {setOtpEmail,clearOtpState} = authSlice.actions;
-export {loginUser,signupUser, verifyOtpUser, logoutUser,updateAvatar, googleLoginUser};
+export {loginUser,signupUser, verifyOtpUser,resendOtpUser, logoutUser,updateAvatar, googleLoginUser};
 export default authSlice.reducer;
