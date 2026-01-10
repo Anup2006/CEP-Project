@@ -51,8 +51,8 @@ export default function Header() {
               {user?.role === "admin" ? (
                 <NavLink to="/app/admindashboard" className={({ isActive }) =>
                   `block py-3 pr-5 pl-5 rounded-lg hover:bg-gray-300 ${isActive ? "text-white bg-black" : "text-black bg-white"}`}>
-                Dashboard
-              </NavLink>
+                  Dashboard
+                </NavLink>
               ):
               (
                 <NavLink to="/app/dashboard" className={({isActive})=> 

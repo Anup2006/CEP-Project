@@ -1,132 +1,446 @@
+// export default [
+//   {
+//     title: "Software Engineer",
+//     category: "Technology",
+//     description: "Design and develop software applications and systems.",
+//     averageSalary: "₹4-20 LPA",
+//     jobGrowth: "15-20% annually",
+//     educationRequired: "B.Tech/B.E in Computer Science",
+//     keySkills: ["Programming", "Problem Solving"],
+//     workEnvironment: "IT Companies, Startups, Remote",
+//     popularCourses: ["CSE", "IT"],
+//     careerLevels: ["Junior Developer", "Senior Developer", "Tech Lead"],
+//     streamRequired: ["Science (PCM)", "Computer Science"],
+//   },
+//   {
+//     title: "Software Engineer",
+//     category: "Healthcare",
+//     description: "Develop healthcare software applications.",
+//     averageSalary: "₹3-15 LPA",
+//     jobGrowth: "12-18% annually",
+//     educationRequired: "B.Tech/B.E in IT/CS or Bioinformatics",
+//     keySkills: ["Programming", "Healthcare IT", "Problem Solving"],
+//     workEnvironment: "Hospitals, Healthcare IT Companies",
+//     popularCourses: ["CSE", "Bioinformatics"],
+//     careerLevels: ["Junior Developer", "Senior Developer", "Tech Lead"],
+//     streamRequired: ["Science (PCB)", "Computer Science"],
+//   },
+//   {
+//     title: "Medical Doctor",
+//     category: "Healthcare",
+//     description: "Diagnose and treat patients, conduct medical research, and contribute to healthcare advancement.",
+//     averageSalary: "₹6-30 LPA",
+//     jobGrowth: "12-18% annually",
+//     educationRequired: "MBBS + MD/MS specialization",
+//     keySkills: ["Medical Knowledge", "Empathy", "Decision Making", "Communication"],
+//     workEnvironment: "Hospitals, Clinics, Research Centers",
+//     popularCourses: ["MBBS", "BDS", "BAMS", "BHMS"],
+//     careerLevels: ["Junior Doctor", "Specialist", "Consultant", "Department Head"],
+//     streamRequired: ["Science (PCB)", "Biology"]
+//   },
+//   {
+//     title: "Chartered Accountant",
+//     category: "Finance",
+//     description: "Manage financial records, provide tax advice, and ensure compliance with financial regulations.",
+//     averageSalary: "₹5-25 LPA",
+//     jobGrowth: "8-12% annually",
+//     educationRequired: "CA qualification after Class 12",
+//     keySkills: ["Accounting", "Financial Analysis", "Tax Knowledge", "Audit"],
+//     workEnvironment: "Accounting Firms, Corporate Offices, Self-practice",
+//     popularCourses: ["CA (Chartered Accountancy)", "CS (Company Secretary)", "CMA"],
+//     careerLevels: ["Article Assistant", "Associate", "Manager", "Partner"],
+//     streamRequired: ["Commerce", "Any Stream"]
+//   },
+//   {
+//     title: "Graphic Designer",
+//     category: "Creative",
+//     description: "Create visual content for digital and print media using design software and artistic skills.",
+//     averageSalary: "₹2-10 LPA",
+//     jobGrowth: "10-15% annually",
+//     educationRequired: "BFA/B.Des in Graphic Design",
+//     keySkills: ["Design Software", "Creativity", "Visual Communication", "Typography"],
+//     workEnvironment: "Design Studios, Ad Agencies, Freelance",
+//     popularCourses: ["Graphic Design", "Visual Communication", "Fine Arts"],
+//     careerLevels: ["Junior Designer", "Senior Designer", "Art Director", "Creative Director"],
+//     streamRequired: ["Any Stream", "Arts"]
+//   },
+//   {
+//     title: "Civil Engineer",
+//     category: "Engineering",
+//     description: "Design, construct, and maintain infrastructure projects like buildings, roads, and bridges.",
+//     averageSalary: "₹3-15 LPA",
+//     jobGrowth: "8-12% annually",
+//     educationRequired: "B.Tech/B.E in Civil Engineering",
+//     keySkills: ["Structural Design", "Project Management", "CAD Software", "Problem Solving"],
+//     workEnvironment: "Construction Sites, Offices, Government Agencies",
+//     popularCourses: ["Civil Engineering", "Environmental Engineering", "Structural Engineering"],
+//     careerLevels: ["Junior Engineer", "Project Engineer", "Site Manager", "Project Manager"],
+//     streamRequired: ["Science (PCM)", "Mathematics"]
+//   },
+//   {
+//     title: "Psychologist",
+//     category: "Healthcare",
+//     description: "Study human behavior and mental processes to help individuals overcome psychological challenges.",
+//     averageSalary: "₹3-12 LPA",
+//     jobGrowth: "12-18% annually",
+//     educationRequired: "BA/MA in Psychology",
+//     keySkills: ["Counseling", "Research", "Empathy", "Communication"],
+//     workEnvironment: "Hospitals, Clinics, Schools, Private Practice",
+//     popularCourses: ["Psychology", "Clinical Psychology", "Counseling Psychology"],
+//     careerLevels: ["Assistant Psychologist", "Clinical Psychologist", "Senior Psychologist", "Director"],
+//     streamRequired: ["Arts", "Science", "Any Stream"]
+//   },
+//   {
+//     title: "Digital Marketing Specialist",
+//     category: "Marketing",
+//     description: "Promote products and services using digital channels like social media, search engines, and websites.",
+//     averageSalary: "₹3-15 LPA",
+//     jobGrowth: "20-25% annually",
+//     educationRequired: "BBA/MBA in Marketing",
+//     keySkills: ["SEO/SEM", "Social Media", "Analytics", "Content Creation"],
+//     workEnvironment: "Marketing Agencies, Startups, Corporate",
+//     popularCourses: ["Digital Marketing", "Mass Communication", "MBA Marketing"],
+//     careerLevels: ["Marketing Executive", "Digital Marketing Manager", "Growth Manager", "CMO"],
+//     streamRequired: ["Any Stream", "Commerce"]
+//   },
+//   {
+//     title: "Data Scientist",
+//     category: "Technology",
+//     description: "Analyze complex data to extract insights and support business decision-making using statistical methods.",
+//     averageSalary: "₹6-25 LPA",
+//     jobGrowth: "25-30% annually",
+//     educationRequired: "B.Tech/M.Tech in Computer Science/Statistics",
+//     keySkills: ["Python/R", "Machine Learning", "Statistics", "Data Visualization"],
+//     workEnvironment: "Tech Companies, Consulting Firms, Research Labs",
+//     popularCourses: ["Data Science", "Statistics", "Computer Science", "Mathematics"],
+//     careerLevels: ["Data Analyst", "Data Scientist", "Senior Data Scientist", "Chief Data Officer"],
+//     streamRequired: ["Science (PCM)", "Mathematics", "Computer Science"]
+//   },
+//   {
+//     title: "Lawyer",
+//     category: "Legal",
+//     description: "Provide legal advice, represent clients in court, and ensure justice through legal expertise.",
+//     averageSalary: "₹3-20 LPA",
+//     jobGrowth: "8-12% annually",
+//     educationRequired: "LLB (5 years) after Class 12",
+//     keySkills: ["Legal Research", "Communication", "Critical Thinking", "Negotiation"],
+//     workEnvironment: "Law Firms, Courts, Corporate Legal Departments",
+//     popularCourses: ["LLB", "BA LLB", "BBA LLB", "LLM"],
+//     careerLevels: ["Junior Associate", "Associate", "Senior Associate", "Partner"],
+//     streamRequired: ["Any Stream", "Arts", "Commerce"]
+//   }
+// ];
+
+
 export default [
+  // ================= SOFTWARE ENGINEER =================
   {
     title: "Software Engineer",
+    slug: "software-engineer",
     category: "Technology",
     description: "Design and develop software applications and systems.",
+    detailedDescription:
+      "Software engineers design, develop, test, and maintain software applications and systems used across industries.",
+
     averageSalary: "₹4-20 LPA",
     jobGrowth: "15-20% annually",
     educationRequired: "B.Tech/B.E in Computer Science",
+
     keySkills: ["Programming", "Problem Solving"],
     workEnvironment: "IT Companies, Startups, Remote",
+
+    dailyActivities: [
+      "Writing and debugging code",
+      "Collaborating with teams",
+      "Designing software architecture",
+      "Testing and deployment",
+      "Code reviews"
+    ],
+
+    workCulture:
+      "Flexible work culture with emphasis on innovation, teamwork, and continuous learning.",
+
+    topEmployers: [
+      "Google",
+      "Microsoft",
+      "Amazon",
+      "TCS",
+      "Infosys",
+      "Wipro"
+    ],
+
+    salaryProgression: [
+      { level: "Fresher", range: "₹3-8 LPA" },
+      { level: "Mid-level", range: "₹8-18 LPA" },
+      { level: "Senior", range: "₹18-35 LPA" }
+    ],
+
+    entranceExams: ["JEE Main", "JEE Advanced", "BITSAT"],
+    topColleges: ["IITs", "NITs", "BITS Pilani"],
+    futureScope:
+      "Strong future demand in AI, cloud computing, cybersecurity, and full-stack development.",
+
     popularCourses: ["CSE", "IT"],
     careerLevels: ["Junior Developer", "Senior Developer", "Tech Lead"],
-    streamRequired: ["Science (PCM)", "Computer Science"],
+    streamRequired: ["Science (PCM)", "Computer Science"]
   },
-  {
-    title: "Software Engineer",
-    category: "Healthcare",
-    description: "Develop healthcare software applications.",
-    averageSalary: "₹3-15 LPA",
-    jobGrowth: "12-18% annually",
-    educationRequired: "B.Tech/B.E in IT/CS or Bioinformatics",
-    keySkills: ["Programming", "Healthcare IT", "Problem Solving"],
-    workEnvironment: "Hospitals, Healthcare IT Companies",
-    popularCourses: ["CSE", "Bioinformatics"],
-    careerLevels: ["Junior Developer", "Senior Developer", "Tech Lead"],
-    streamRequired: ["Science (PCB)", "Computer Science"],
-  },
+
+  // ================= DOCTOR =================
   {
     title: "Medical Doctor",
+    slug: "doctor",
     category: "Healthcare",
-    description: "Diagnose and treat patients, conduct medical research, and contribute to healthcare advancement.",
+    description: "Diagnose and treat patients.",
+    detailedDescription:
+      "Medical doctors diagnose illnesses, prescribe treatments, and provide preventive healthcare.",
+
     averageSalary: "₹6-30 LPA",
     jobGrowth: "12-18% annually",
-    educationRequired: "MBBS + MD/MS specialization",
-    keySkills: ["Medical Knowledge", "Empathy", "Decision Making", "Communication"],
+    educationRequired: "MBBS + MD/MS",
+
+    keySkills: ["Medical Knowledge", "Empathy", "Decision Making"],
     workEnvironment: "Hospitals, Clinics, Research Centers",
-    popularCourses: ["MBBS", "BDS", "BAMS", "BHMS"],
-    careerLevels: ["Junior Doctor", "Specialist", "Consultant", "Department Head"],
-    streamRequired: ["Science (PCB)", "Biology"]
+
+    dailyActivities: [
+      "Examining patients",
+      "Prescribing medication",
+      "Performing procedures",
+      "Consulting specialists",
+      "Maintaining medical records"
+    ],
+
+    workCulture:
+      "Demanding but rewarding work culture requiring dedication and continuous learning.",
+
+    topEmployers: ["AIIMS", "Apollo Hospitals", "Fortis"],
+    salaryProgression: [
+      { level: "Junior Doctor", range: "₹6-12 LPA" },
+      { level: "Consultant", range: "₹20-40 LPA" }
+    ],
+
+    entranceExams: ["NEET UG", "NEET PG"],
+    topColleges: ["AIIMS", "CMC Vellore", "AFMC Pune"],
+    futureScope:
+      "Growing opportunities in telemedicine, specialized care, and research.",
+
+    popularCourses: ["MBBS", "BDS"],
+    careerLevels: ["Junior Doctor", "Consultant", "Senior Consultant"],
+    streamRequired: ["Science (PCB)"]
   },
+
+  // ================= CHARTERED ACCOUNTANT =================
   {
     title: "Chartered Accountant",
+    slug: "chartered-accountant",
     category: "Finance",
-    description: "Manage financial records, provide tax advice, and ensure compliance with financial regulations.",
+    description: "Manage finances and ensure regulatory compliance.",
+    detailedDescription:
+      "Chartered Accountants handle accounting, auditing, taxation, and financial advisory services.",
+
     averageSalary: "₹5-25 LPA",
     jobGrowth: "8-12% annually",
-    educationRequired: "CA qualification after Class 12",
-    keySkills: ["Accounting", "Financial Analysis", "Tax Knowledge", "Audit"],
-    workEnvironment: "Accounting Firms, Corporate Offices, Self-practice",
-    popularCourses: ["CA (Chartered Accountancy)", "CS (Company Secretary)", "CMA"],
-    careerLevels: ["Article Assistant", "Associate", "Manager", "Partner"],
+    educationRequired: "CA qualification",
+
+    keySkills: ["Accounting", "Taxation", "Audit"],
+    workEnvironment: "Firms, Corporates, Self Practice",
+
+    dailyActivities: [
+      "Preparing financial statements",
+      "Auditing accounts",
+      "Tax planning",
+      "Client advisory"
+    ],
+
+    workCulture:
+      "Professional, deadline-driven work environment with high responsibility.",
+
+    topEmployers: ["Big 4 Firms", "Corporate Houses"],
+    salaryProgression: [
+      { level: "Article Assistant", range: "₹2-5 LPA" },
+      { level: "CA", range: "₹6-20 LPA" }
+    ],
+
+    entranceExams: ["CA Foundation", "CA Intermediate", "CA Final"],
+    topColleges: ["ICAI"],
+    futureScope:
+      "Strong demand in taxation, auditing, and financial consulting.",
+
+    popularCourses: ["CA", "CMA"],
+    careerLevels: ["Article Assistant", "Associate", "Partner"],
     streamRequired: ["Commerce", "Any Stream"]
   },
+
+  // ================= GRAPHIC DESIGNER =================
   {
     title: "Graphic Designer",
+    slug: "graphic-designer",
     category: "Creative",
-    description: "Create visual content for digital and print media using design software and artistic skills.",
+    description: "Create visual designs for media and branding.",
+    detailedDescription:
+      "Graphic designers create visual concepts using digital tools to communicate ideas.",
+
     averageSalary: "₹2-10 LPA",
     jobGrowth: "10-15% annually",
-    educationRequired: "BFA/B.Des in Graphic Design",
-    keySkills: ["Design Software", "Creativity", "Visual Communication", "Typography"],
-    workEnvironment: "Design Studios, Ad Agencies, Freelance",
-    popularCourses: ["Graphic Design", "Visual Communication", "Fine Arts"],
-    careerLevels: ["Junior Designer", "Senior Designer", "Art Director", "Creative Director"],
-    streamRequired: ["Any Stream", "Arts"]
+    educationRequired: "BFA / B.Des",
+
+    keySkills: ["Creativity", "Design Tools", "Typography"],
+    workEnvironment: "Agencies, Freelance, Studios",
+
+    dailyActivities: [
+      "Designing graphics",
+      "Client discussions",
+      "Revisions and iterations",
+      "Brand development"
+    ],
+
+    workCulture:
+      "Creative and flexible work environment with project-based deadlines.",
+
+    topEmployers: ["Design Studios", "Advertising Agencies"],
+    salaryProgression: [
+      { level: "Junior Designer", range: "₹2-4 LPA" },
+      { level: "Senior Designer", range: "₹6-10 LPA" }
+    ],
+
+    entranceExams: ["NIFT", "NID"],
+    topColleges: ["NIFT", "NID"],
+    futureScope:
+      "Rising demand in UI/UX, digital marketing, and branding.",
+
+    popularCourses: ["Graphic Design", "Visual Communication"],
+    careerLevels: ["Junior Designer", "Senior Designer", "Art Director"],
+    streamRequired: ["Arts", "Any Stream"]
   },
+
+  // ================= DATA SCIENTIST =================
   {
-    title: "Civil Engineer",
-    category: "Engineering",
-    description: "Design, construct, and maintain infrastructure projects like buildings, roads, and bridges.",
-    averageSalary: "₹3-15 LPA",
-    jobGrowth: "8-12% annually",
-    educationRequired: "B.Tech/B.E in Civil Engineering",
-    keySkills: ["Structural Design", "Project Management", "CAD Software", "Problem Solving"],
-    workEnvironment: "Construction Sites, Offices, Government Agencies",
-    popularCourses: ["Civil Engineering", "Environmental Engineering", "Structural Engineering"],
-    careerLevels: ["Junior Engineer", "Project Engineer", "Site Manager", "Project Manager"],
+    title: "Data Scientist",
+    slug: "data-scientist",
+    category: "Technology",
+    description: "Analyze data to extract insights.",
+    detailedDescription:
+      "Data scientists use statistics, machine learning, and programming to analyze large datasets.",
+
+    averageSalary: "₹6-25 LPA",
+    jobGrowth: "25-30% annually",
+    educationRequired: "B.Tech/M.Tech in CS/Statistics",
+
+    keySkills: ["Python", "Machine Learning", "Statistics"],
+    workEnvironment: "Tech Companies, Research Labs",
+
+    dailyActivities: [
+      "Data cleaning",
+      "Model building",
+      "Data visualization",
+      "Business insights"
+    ],
+
+    workCulture:
+      "Data-driven, analytical work culture with continuous learning.",
+
+    topEmployers: ["Google", "Amazon", "IBM"],
+    salaryProgression: [
+      { level: "Data Analyst", range: "₹5-8 LPA" },
+      { level: "Senior Data Scientist", range: "₹20+ LPA" }
+    ],
+
+    entranceExams: ["GATE", "University Exams"],
+    topColleges: ["IITs", "ISI"],
+    futureScope:
+      "Extremely high demand in AI, analytics, and automation.",
+
+    popularCourses: ["Data Science", "Statistics"],
+    careerLevels: ["Data Analyst", "Data Scientist", "Chief Data Officer"],
     streamRequired: ["Science (PCM)", "Mathematics"]
   },
   {
-    title: "Psychologist",
-    category: "Healthcare",
-    description: "Study human behavior and mental processes to help individuals overcome psychological challenges.",
-    averageSalary: "₹3-12 LPA",
-    jobGrowth: "12-18% annually",
-    educationRequired: "BA/MA in Psychology",
-    keySkills: ["Counseling", "Research", "Empathy", "Communication"],
-    workEnvironment: "Hospitals, Clinics, Schools, Private Practice",
-    popularCourses: ["Psychology", "Clinical Psychology", "Counseling Psychology"],
-    careerLevels: ["Assistant Psychologist", "Clinical Psychologist", "Senior Psychologist", "Director"],
-    streamRequired: ["Arts", "Science", "Any Stream"]
-  },
-  {
-    title: "Digital Marketing Specialist",
-    category: "Marketing",
-    description: "Promote products and services using digital channels like social media, search engines, and websites.",
-    averageSalary: "₹3-15 LPA",
-    jobGrowth: "20-25% annually",
-    educationRequired: "BBA/MBA in Marketing",
-    keySkills: ["SEO/SEM", "Social Media", "Analytics", "Content Creation"],
-    workEnvironment: "Marketing Agencies, Startups, Corporate",
-    popularCourses: ["Digital Marketing", "Mass Communication", "MBA Marketing"],
-    careerLevels: ["Marketing Executive", "Digital Marketing Manager", "Growth Manager", "CMO"],
-    streamRequired: ["Any Stream", "Commerce"]
-  },
-  {
-    title: "Data Scientist",
-    category: "Technology",
-    description: "Analyze complex data to extract insights and support business decision-making using statistical methods.",
-    averageSalary: "₹6-25 LPA",
-    jobGrowth: "25-30% annually",
-    educationRequired: "B.Tech/M.Tech in Computer Science/Statistics",
-    keySkills: ["Python/R", "Machine Learning", "Statistics", "Data Visualization"],
-    workEnvironment: "Tech Companies, Consulting Firms, Research Labs",
-    popularCourses: ["Data Science", "Statistics", "Computer Science", "Mathematics"],
-    careerLevels: ["Data Analyst", "Data Scientist", "Senior Data Scientist", "Chief Data Officer"],
-    streamRequired: ["Science (PCM)", "Mathematics", "Computer Science"]
-  },
-  {
-    title: "Lawyer",
-    category: "Legal",
-    description: "Provide legal advice, represent clients in court, and ensure justice through legal expertise.",
-    averageSalary: "₹3-20 LPA",
-    jobGrowth: "8-12% annually",
-    educationRequired: "LLB (5 years) after Class 12",
-    keySkills: ["Legal Research", "Communication", "Critical Thinking", "Negotiation"],
-    workEnvironment: "Law Firms, Courts, Corporate Legal Departments",
-    popularCourses: ["LLB", "BA LLB", "BBA LLB", "LLM"],
-    careerLevels: ["Junior Associate", "Associate", "Senior Associate", "Partner"],
-    streamRequired: ["Any Stream", "Arts", "Commerce"]
-  }
+  title: "Lawyer",
+  slug: "lawyer",
+  category: "Legal",
+  description:
+    "Provide legal advice, represent clients in court, and ensure justice through legal expertise.",
+
+  detailedDescription:
+    "Lawyers advise individuals, businesses, and organizations on legal matters, represent clients in courts, draft legal documents, and ensure compliance with laws and regulations.",
+
+  averageSalary: "₹3-20 LPA",
+  jobGrowth: "8-12% annually",
+  educationRequired: "LLB (3 or 5 years) + Bar Council Enrollment",
+
+  keySkills: [
+    "Legal Research",
+    "Communication",
+    "Critical Thinking",
+    "Negotiation",
+    "Drafting"
+  ],
+
+  workEnvironment:
+    "Law firms, courts, corporate offices, government departments, and private practice.",
+
+  dailyActivities: [
+    "Researching legal cases and precedents",
+    "Drafting legal documents and contracts",
+    "Representing clients in court",
+    "Consulting with clients",
+    "Negotiating settlements"
+  ],
+
+  workCulture:
+    "Professional and deadline-driven environment requiring strong ethics, attention to detail, and long working hours.",
+
+  topEmployers: [
+    "Law Firms",
+    "Corporate Legal Departments",
+    "Government Agencies",
+    "Judiciary",
+    "NGOs"
+  ],
+
+  salaryProgression: [
+    { level: "Junior Lawyer", range: "₹3-6 LPA" },
+    { level: "Associate", range: "₹6-12 LPA" },
+    { level: "Senior Advocate", range: "₹12-30 LPA" },
+    { level: "Partner / Legal Head", range: "₹30+ LPA" }
+  ],
+
+  entranceExams: [
+    "CLAT",
+    "AILET",
+    "LSAT India",
+    "State Bar Council Exams"
+  ],
+
+  topColleges: [
+    "NLSIU Bangalore",
+    "NALSAR Hyderabad",
+    "NLU Delhi",
+    "Symbiosis Law School",
+    "ILS Law College"
+  ],
+
+  futureScope:
+    "Strong demand in corporate law, cyber law, intellectual property, arbitration, and international law.",
+
+  popularCourses: [
+    "LLB",
+    "BA LLB",
+    "BBA LLB",
+    "LLM"
+  ],
+
+  careerLevels: [
+    "Junior Associate",
+    "Associate",
+    "Senior Associate",
+    "Partner"
+  ],
+
+  streamRequired: [
+    "Any Stream",
+    "Arts",
+    "Commerce"
+  ]
+}
+
 ];

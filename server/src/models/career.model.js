@@ -16,6 +16,9 @@ const careerSchema = new Schema({
         type: String,
         required: true
     },
+    detailedDescription:{
+      type:String,
+    },
     description: {
         type: String,
         required: true
@@ -25,9 +28,40 @@ const careerSchema = new Schema({
     educationRequired: String,
     keySkills: [String],
     workEnvironment: String,
-    popularCourses: [String],
     careerLevels: [String],
-    streamRequired: [String]
+    streamRequired: [String],
+    dailyActivities: {
+      type: [String],
+      default: []
+    },
+    workCulture: {
+      type: String
+    },
+    topEmployers: {
+      type: [String],
+      default: []
+    },
+    salaryProgression: [
+      {
+        level: String,
+        range: String
+      }
+    ],
+    entranceExams: {
+      type: [String],
+      default: []
+    },
+    topColleges: {
+      type: [String],
+      default: []
+    },
+    futureScope: {
+      type: String
+    },
+    popularCourses: {
+      type: [String],
+      default: []
+    }
 },{timestamps:true})
 
 careerSchema.index({ title: 1, category: 1 }, { unique: true });

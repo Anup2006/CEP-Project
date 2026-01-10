@@ -101,17 +101,17 @@ const adminSlice =createSlice({
         })
 
         
-    // Delete user
-    .addCase(deleteUser.fulfilled, (state, action) => {
-      const deletedUserId = action.payload.userId; 
-      state.users = state.users.filter(u => u._id !== deletedUserId);
-    })
+        // Delete user
+        .addCase(deleteUser.fulfilled, (state, action) => {
+        const deletedUserId = action.payload.userId; 
+        state.users = state.users.filter(u => u._id !== deletedUserId);
+        })
 
-    // Update role
-    .addCase(updateUserRole.fulfilled, (state, action) => {
-      const updatedUser = action.payload.data;
-      state.users = state.users.map(u => (u._id === updatedUser._id ? updatedUser : u));
-    })
+        // Update role
+        .addCase(updateUserRole.fulfilled, (state, action) => {
+        const updatedUser = action.payload.data;
+        state.users = state.users.map(u => (u._id === updatedUser._id ? updatedUser : u));
+        })
     }
 })
 

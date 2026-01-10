@@ -11,79 +11,16 @@ import {
   Star,
   Award,
   MapPin,
-  Building
+  Building,
+  X,
 } from "lucide-react";
 import "./CareerDetailModal.css";
 
 export default function CareerDetailModal({ career, isOpen, onClose }) {
   const [activeTab, setActiveTab] = useState("overview");
-
+  
   if (!career || !isOpen) return null;
 
-  // Extended career data for detailed view
-  const getCareerDetails = (careerId) => {
-    const detailsMap = {
-      "software-engineer": {
-        detailedDescription: "Software engineers design, develop, test, and maintain software applications and systems. They work across various industries to create solutions that help businesses operate efficiently and users accomplish their goals.",
-        dailyActivities: [
-          "Writing and debugging code",
-          "Collaborating with cross-functional teams",
-          "Designing system architecture",
-          "Testing and deploying applications",
-          "Code reviews and documentation"
-        ],
-        workCulture: "Tech companies often have flexible work environments with modern offices, remote work options, and emphasis on innovation and continuous learning.",
-        topEmployers: ["Google", "Microsoft", "Amazon", "TCS", "Infosys", "Wipro", "Accenture"],
-        salaryProgression: [
-          { level: "Fresher (0-2 years)", range: "₹3-8 LPA" },
-          { level: "Mid-level (3-6 years)", range: "₹8-18 LPA" },
-          { level: "Senior (7-12 years)", range: "₹18-35 LPA" },
-          { level: "Lead/Architect (12+ years)", range: "₹35-60 LPA" }
-        ],
-        entrance_exams: ["JEE Main", "JEE Advanced", "BITSAT", "VITEEE", "SRMJEEE"],
-        topColleges: ["IIT Delhi", "IIT Bombay", "IIT Kanpur", "NIT Trichy", "BITS Pilani"],
-        futureScope: "High demand for AI/ML, Cloud Computing, Cybersecurity, and Full-stack development specialists."
-      },
-      "doctor": {
-        detailedDescription: "Medical doctors diagnose and treat illnesses, injuries, and other health conditions. They work to prevent disease, promote health, and provide compassionate care to patients across all age groups.",
-        dailyActivities: [
-          "Examining patients and diagnosing conditions",
-          "Prescribing treatments and medications",
-          "Performing procedures and surgeries",
-          "Consulting with other healthcare professionals",
-          "Maintaining patient records and documentation"
-        ],
-        workCulture: "Healthcare environments require dedication, long hours, and emotional resilience. Strong emphasis on continuous medical education and patient care.",
-        topEmployers: ["AIIMS", "Apollo Hospitals", "Fortis Healthcare", "Max Healthcare", "Government Hospitals"],
-        salaryProgression: [
-          { level: "Junior Resident", range: "₹6-12 LPA" },
-          { level: "Senior Resident", range: "₹12-20 LPA" },
-          { level: "Consultant", range: "₹20-40 LPA" },
-          { level: "Senior Consultant", range: "₹40-80 LPA" }
-        ],
-        entrance_exams: ["NEET UG", "NEET PG", "AIIMS MBBS", "JIPMER"],
-        topColleges: ["AIIMS Delhi", "AFMC Pune", "JIPMER", "CMC Vellore", "KGMU Lucknow"],
-        futureScope: "Growing demand in telemedicine, geriatric care, mental health, and specialized medical fields."
-      }
-    };
-
-    return detailsMap[careerId] || {
-      detailedDescription: career.description,
-      dailyActivities: ["Perform core job responsibilities", "Collaborate with team members", "Continuous learning and skill development"],
-      workCulture: "Professional environment with growth opportunities",
-      topEmployers: ["Leading companies in the industry"],
-      salaryProgression: [
-        { level: "Entry Level", range: "Starting salary range" },
-        { level: "Mid Level", range: "Growth phase salary" },
-        { level: "Senior Level", range: "Experienced professional salary" }
-      ],
-      entrance_exams: ["Relevant entrance examinations"],
-      topColleges: ["Top institutions for this field"],
-      futureScope: "Positive growth prospects in the field"
-    };
-  };
-
-  const details = getCareerDetails(career.id);
 
   const tabs = [
     { id: "overview", label: "Overview" },
@@ -99,7 +36,12 @@ export default function CareerDetailModal({ career, isOpen, onClose }) {
         <div className="modal-header">
           <div className="modal-title-section">
             <div>
-              <h2 className="modal-title">{career.title}</h2>
+              <div className="flex flex-row w-235 justify-between">
+                <h2 className="modal-title">{career.title}</h2>
+                <button onClick={onClose} className="p-1 rounded-full hover:bg-gray-400">
+                  <X size={20} color="black" />
+                </button>
+              </div>
               <div className="modal-badges">
                 <span className="modal-badge secondary">{career.category}</span>
                 <span className="modal-badge outline">In-Demand</span>
@@ -107,7 +49,7 @@ export default function CareerDetailModal({ career, isOpen, onClose }) {
             </div>
           </div>
           <p className="modal-description">
-            {details.detailedDescription}
+            {career.detailedDescription}
           </p>
         </div>
 
@@ -184,7 +126,7 @@ export default function CareerDetailModal({ career, isOpen, onClose }) {
                 </div>
                 <div className="card-content">
                   <div className="tags-grid">
-                    {details.topEmployers.map((employer, index) => (
+                    {career.topEmployers.map((employer, index) => (
                       <span key={index} className="tag">
                         {employer}
                       </span>
@@ -200,7 +142,7 @@ export default function CareerDetailModal({ career, isOpen, onClose }) {
                   <h3 className="card-title">Work Culture</h3>
                 </div>
                 <div className="card-content">
-                  <p className="section-text">{details.workCulture}</p>
+                  <p className="section-text">{career.workCulture}</p>
                 </div>
               </div>
             </div>
@@ -256,7 +198,7 @@ export default function CareerDetailModal({ career, isOpen, onClose }) {
                 </div>
                 <div className="card-content">
                   <div className="tags-grid">
-                    {details.entrance_exams.map((exam, index) => (
+                    {career.entranceExams.map((exam, index) => (
                       <span key={index} className="tag">{exam}</span>
                     ))}
                   </div>
@@ -271,7 +213,7 @@ export default function CareerDetailModal({ career, isOpen, onClose }) {
                 </div>
                 <div className="card-content">
                   <div className="colleges-grid">
-                    {details.topColleges.map((college, index) => (
+                    {career.topColleges.map((college, index) => (
                       <div key={index} className="college-item">
                         <div className="college-dot"></div>
                         {college}
@@ -292,7 +234,7 @@ export default function CareerDetailModal({ career, isOpen, onClose }) {
                 </div>
                 <div className="card-content">
                   <div className="salary-progression">
-                    {details.salaryProgression.map((level, index) => (
+                    {career.salaryProgression.map((level, index) => (
                       <div key={index} className="salary-level">
                         <div className="salary-header">
                           <span className="salary-title">{level.level}</span>
@@ -383,7 +325,7 @@ export default function CareerDetailModal({ career, isOpen, onClose }) {
                 </div>
                 <div className="card-content">
                   <div className="activities-list">
-                    {details.dailyActivities.map((activity, index) => (
+                    {career.dailyActivities.map((activity, index) => (
                       <div key={index} className="activity-item">
                         <div className="activity-icon">
                           <div className="activity-dot"></div>
@@ -427,7 +369,7 @@ export default function CareerDetailModal({ career, isOpen, onClose }) {
                   <h3 className="card-title">Future Scope & Trends</h3>
                 </div>
                 <div className="card-content">
-                  <p className="section-text">{details.futureScope}</p>
+                  <p className="section-text">{career.futureScope}</p>
                 </div>
               </div>
 
@@ -487,7 +429,6 @@ export default function CareerDetailModal({ career, isOpen, onClose }) {
             </div>
           )}
         </div>
-
         <div className="modal-actions">
           <button onClick={onClose} className="modal-button outline">
             Close

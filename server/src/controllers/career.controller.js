@@ -8,6 +8,7 @@ const createCareer = asyncHandler(async (req, res) => {
     title,
     category,
     description,
+    detailedDescription,
     averageSalary,
     jobGrowth,
     educationRequired,
@@ -16,6 +17,13 @@ const createCareer = asyncHandler(async (req, res) => {
     popularCourses = [],
     careerLevels = [],
     streamRequired = [],
+    dailyActivities = [],
+    workCulture,
+    topEmployers = [],
+    salaryProgression = [],
+    entranceExams = [],
+    topColleges = [],
+    futureScope,
   } = req.body;
 
   if (!title || !category || !description) {
@@ -35,6 +43,7 @@ const createCareer = asyncHandler(async (req, res) => {
     title: title.trim(),
     category: category.trim(),
     description: description.trim(),
+    detailedDescription: detailedDescription?.trim(),
     averageSalary: averageSalary?.trim(),
     jobGrowth: jobGrowth?.trim(),
     educationRequired: educationRequired?.trim(),
@@ -43,6 +52,13 @@ const createCareer = asyncHandler(async (req, res) => {
     popularCourses,
     careerLevels,
     streamRequired,
+    dailyActivities,
+    workCulture: workCulture?.trim(),
+    topEmployers,
+    salaryProgression,
+    entranceExams,
+    topColleges,
+    futureScope: futureScope?.trim(),
   });
 
   return res.status(201).json(
@@ -57,7 +73,54 @@ const getAllCareers = asyncHandler(async (req, res) => {
     .json(new apiResponse(200, careers, "All careers fetched"));
 });
 
+const getCareerBySlug = asyncHandler(async (req, res) => {
+  const { slug } = req.params;
+
+  const career = await Career.findOne({ slug });
+  if (!career) {
+    throw new apiError(404, "Career not found");
+  }
+
+  return res
+    .status(200)
+    .json(new apiResponse(200, career, "Career fetched"));
+});
+
+const updateCareer = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const career = await Career.findByIdAndUpdate(id, req.body, {
+    new: true,
+    runValidators: true
+  });
+
+  if (!career) {
+    throw new apiError(404, "Career not found");
+  }
+
+  return res
+    .status(200)
+    .json(new apiResponse(200, career, "Career updated"));
+});
+
+const deleteCareer = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const career = await Career.findByIdAndDelete(id);
+  if (!career) {
+    throw new apiError(404, "Career not found");
+  }
+
+  return res
+    .status(200)
+    .json(new apiResponse(200, null, "Career deleted"));
+});
+
+
 export {
     createCareer,
     getAllCareers,
+    getCareerBySlug,
+    updateCareer,
+    deleteCareer,
 }

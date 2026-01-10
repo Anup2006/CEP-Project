@@ -1,51 +1,46 @@
 import { useState } from "react";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { Search, Filter, TrendingUp, DollarSign, Users, Clock, BookOpen, GraduationCap } from "lucide-react";
-import CareerDetailModal from "../Career-Detail-Modal/CareerDetailModal";
+import CareerDetailModal from "../Career-Detail-Modal/CareerDetailModal.jsx";
+import { fetchCareers,fetchCareerBySlug, clearSelectedCareer, deleteCareer } from "../../redux/careerSlice.js";
 import "./CareerExploration.css";
-const base_uri=import.meta.env.VITE_BACKEND_URL || "http://localhost:8000/api/v1";
-const BACKEND_URL=`${base_uri}/careers`;
+import { Trash2,Edit } from "lucide-react"; 
 
 export default function CareerExploration() {
-  const [careers, setCareers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedStream, setSelectedStream] = useState("all");
-  const [selectedCareer, setSelectedCareer] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const dispatch = useDispatch();
+  const { careers, loading, error, selectedCareer } = useSelector(state => state.career);
+  const { user } = useSelector(state => state.auth);
+  const navigate = useNavigate();
+
+  const handleUpdateCareer = (career) => {
+    navigate(`/app/admin/career/update/${career._id}/${career.slug}`);
+  };
+
 
   const handleLearnMore = (career) => {
-    setSelectedCareer(career);
+    dispatch(fetchCareerBySlug(career.slug));
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
+    dispatch(clearSelectedCareer());
     setIsModalOpen(false);
-    setSelectedCareer(null);
   };
 
-  useEffect(() => {
-    const fetchCareers = async () => {
-      try {
-        const res = await fetch(BACKEND_URL);
-        if (!res.ok){
-          throw new Error("Failed to fetch careers");
-        }
-        const data = await res.json();
-        setCareers(data.data);
-        setLoading(false);
-      } catch (err) {
-        console.error(err);
-        setError("Unable to load careers. Please try again later.");
-        setLoading(false);
-      }
-    };
+  const handleDeleteCareer =(careerId)=>{
+    if (window.confirm("Are you sure?")) dispatch(deleteCareer(careerId));
+  }
 
-    fetchCareers();
-  }, []);
+  useEffect(() => {
+    dispatch(fetchCareers());
+  }, [dispatch]);
 
   const categories = ["all", "Technology", "Healthcare", "Finance", "Creative", "Engineering", "Marketing", "Legal"];
   const streams = ["all", "Science (PCM)", "Science (PCB)", "Commerce", "Arts", "Any Stream"];
@@ -61,8 +56,8 @@ export default function CareerExploration() {
     return matchesSearch && matchesCategory && matchesStream;
   });
 
-  if (loading) return <div className="loading">Loading careers...</div>
-  if (error) return <div className="error">{error}</div>
+  if (loading) return <div className="flex justify-center items-center m-10 p-10">Loading careers...</div>
+  if (error) return <div className="flex justify-center items-center m-10 p-10">{error}</div>
 
   return (
     <div className="career-exploration">
@@ -124,10 +119,33 @@ export default function CareerExploration() {
           </div>
         </div>
 
+        <button
+          onClick={() => navigate("/app/admin/createCareer")}
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg"
+        >
+          + Create Career
+        </button>
+
         {/* Career Cards */}
         <div className="careers-grid">
           {filteredCareers.map(career => (
-            <div key={career.slug || career.id} className="career-card">
+            <div key={career.slug || career._id} className="career-card relative">
+              {user?.role === "admin" ? (
+                <span>
+                  <button 
+                    className="delete-icon absolute top-2 right-10 p-1"
+                    onClick={() => handleUpdateCareer(career)}
+                  >
+                    <Edit className="w-5 h-5 text-gray-400 hover:text-gray-600" />
+                  </button>
+                  <button 
+                    className="delete-icon absolute top-2 right-2 p-1 hover:bg-red-100 rounded-full"
+                    onClick={() => handleDeleteCareer(career._id)}
+                  >
+                    <Trash2 className="w-5 h-5 text-red-600" />
+                  </button>
+                </span>
+              ):(null)}
               <div className="career-header">
                 <div className="career-title-section">
                   <div className="career-title-content">
