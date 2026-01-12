@@ -118,13 +118,15 @@ export default function CareerExploration() {
             </div>
           </div>
         </div>
-
-        <button
-          onClick={() => navigate("/app/admin/createCareer")}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg"
-        >
-          + Create Career
-        </button>
+        
+        {user?.role === "admin" ? (
+          <button
+            onClick={() => navigate("/app/admin/createCareer")}
+            className="bg-gray-400 text-white hover:bg-gray-600 px-4 py-2 rounded-lg w-full mb-2"
+          >
+            + Create Career
+          </button>
+        ):(null)}
 
         {/* Career Cards */}
         <div className="careers-grid">

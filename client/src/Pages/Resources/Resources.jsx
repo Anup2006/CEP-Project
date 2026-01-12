@@ -1,10 +1,23 @@
-import { useState } from "react";
-import { FileText, Download, Play, ExternalLink, Calendar, Clock, Target, BookOpen, Users, Lightbulb } from "lucide-react";
+import { useState,useRef } from "react";
+import { FileText, Download, Search, Play,X, ExternalLink, Calendar, Clock, Target, BookOpen, Users, Lightbulb } from "lucide-react";
 import "./Resources.css";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import {
+  fetchAllVideos,
+  searchYoutubeVideos,
+} from "../../redux/videoSlice.js";
 
 export default function Resources() {
   const [activeTab, setActiveTab] = useState("materials");
-
+  const [searchQuery, setSearchQuery] = useState("");
+  const { videos, loading,error } = useSelector((state) => state.videos);
+  const {user,token} = useSelector(state=>state.auth);
+  const [playingVideo, setPlayingVideo] = useState(null); 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  
   const studyMaterials = [
     {
       id: 1,
@@ -39,45 +52,40 @@ export default function Resources() {
       category: "Commerce"
     }
   ];
-
-  const expertVideos = [
-    {
-      id: 1,
-      title: "Choosing the Right Stream After Class 10",
-      expert: "Dr. Priya Sharma",
-      duration: "25:30",
-      views: "15K",
-      thumbnail: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdHVkZW50cyUyMGNsYXNzcm9vbXxlbnwxfHx8fDE3NTgzODAzNzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      description: "Educational counselor discusses how to choose between Science, Commerce, and Arts streams."
-    },
-    {
-      id: 2,
-      title: "Engineering vs Medical: Making the Right Choice",
-      expert: "Prof. Rajesh Kumar",
-      duration: "32:15",
-      views: "12K",
-      thumbnail: "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbmdpbmVlciUyMGRvY3RvcnxlbnwxfHx8fDE3NTgzODAzNzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      description: "Career guidance on choosing between engineering and medical fields based on interests and aptitude."
-    },
-    {
-      id: 3,
-      title: "Digital Age Careers: New Opportunities",
-      expert: "Ms. Anita Desai",
-      duration: "28:45",
-      views: "18K",
-      thumbnail: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWNobm9sb2d5JTIwY2FyZWVyfGVufDF8fHx8MTc1ODM4MDM3MHww&ixlib=rb-4.1.0&q=80&w=1080",
-      description: "Exploring emerging careers in technology, digital marketing, data science, and AI."
-    },
-    {
-      id: 4,
-      title: "Financial Planning for Higher Education",
-      expert: "CA Vikram Singh",
-      duration: "35:20",
-      views: "9K",
-      thumbnail: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmaW5hbmNlJTIwcGxhbm5pbmd8ZW58MXx8fHwxNzU4MzgwMzcwfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      description: "Expert advice on education loans, scholarships, and financial planning for career goals."
+  
+  
+  useEffect(() => {
+    if (activeTab === "videos") {
+      dispatch(fetchAllVideos());
     }
-  ];
+  }, [activeTab, dispatch]);
+  
+  const handleSearch = () => {
+    if (!searchQuery.trim()) return;
+    dispatch(searchYoutubeVideos(searchQuery));
+  };
+  
+  const mappedVideos = videos?.map((video, index) => ({
+    id: video.id || index,
+    title: video.title,
+    description: video.description,
+    source: video.source,      
+    youtubeVideoId: video.youtubeVideoId,
+    thumbnail: video.thumbnail || `https://img.youtube.com/vi/${video.youtubeVideoId}/hqdefault.jpg`,
+    duration: video.duration || "N/A",
+    videoUrl: video.videoUrl, 
+    views: video.views || "—",
+  }));
+  
+  const getVideoUrl = (video) => {
+    if (!video) return "";
+    if (video.source === "youtube" && video.youtubeVideoId) {
+      return `https://www.youtube.com/watch?v=${video.youtubeVideoId}`;
+    } else if (video.source === "cloudinary" && video.videoUrl) {
+      return video.videoUrl;
+    }
+    return "";
+  };
 
   const webinars = [
     {
@@ -203,11 +211,33 @@ export default function Resources() {
             </div>
           )}
 
+
           {/* Expert Videos Tab */}
           {activeTab === "videos" && (
-            <div className="videos-grid">
-              {expertVideos.map((video) => (
-                <div key={video.id} className="video-card">
+          <div>
+            {/* Search bar */}
+            <div className="bg-white p-2 search-container">
+              <Search className="search-icon" />
+              <input
+                type="text"
+                className="search-input"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search videos..."
+              />
+              <button className="nav-button" onClick={handleSearch}>Search</button>
+              {user?.role === "admin" ? (
+                <button
+                className="nav-button" onClick={() => navigate("/app/admin/createVideo")}
+                >
+                  + Add
+                </button>
+              ):(null)}
+            </div>
+            <div className="videos-grid mt-4">
+              {loading && <p>Loading videos...</p>}
+              {mappedVideos.map((video) => (
+                <div key={video.youtubeVideoId || video._id} className="video-card">
                   <div className="video-thumbnail">
                     <img 
                       src={video.thumbnail} 
@@ -220,7 +250,7 @@ export default function Resources() {
                       </div>
                     </div>
                     <div className="video-duration">
-                      {video.duration}
+                      {video.duration || "-"}
                     </div>
                   </div>
                   <div className="video-header">
@@ -229,8 +259,10 @@ export default function Resources() {
                   </div>
                   <div className="video-content">
                     <div className="video-footer">
-                      <span className="video-views">{video.views} views</span>
-                      <button className="watch-button">
+                      <span className="video-views">{video.views.toLocaleString() || "-"} views</span>
+                      <button className="watch-button mt-2"
+                         onClick={() => setPlayingVideo(video)}
+                      >
                         <ExternalLink className="external-icon" />
                         Watch Video
                       </button>
@@ -239,6 +271,7 @@ export default function Resources() {
                 </div>
               ))}
             </div>
+          </div>
           )}
 
           {/* Webinars Tab */}
@@ -361,6 +394,48 @@ export default function Resources() {
             </div>
           )}
         </div>
+        {playingVideo && (
+          <div
+            className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50"
+            onClick={() => setPlayingVideo(null)}
+          >
+            <div
+              className="relative w-11/12 md:w-3/4 lg:w-2/3 aspect-video bg-black rounded-lg shadow-lg"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <p className="text-white absolute top-2 left-2 z-50">
+                URL: {getVideoUrl(playingVideo)}
+              </p>
+              {playingVideo.source === "youtube" && playingVideo.youtubeVideoId ? (
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src={`https://www.youtube.com/embed/${playingVideo.youtubeVideoId}?rel=0&autoplay=1&controls=1`}
+                  title={playingVideo.title}
+                  frameBorder="0"
+                  allow="autoplay; encrypted-media; fullscreen"
+                  allowFullScreen
+                />
+              ) : playingVideo.source === "cloudinary" && playingVideo.videoUrl ? (
+                <video
+                  src={playingVideo.videoUrl}
+                  poster={playingVideo.thumbnail}
+                  controls
+                  autoPlay
+                  className="w-full h-full rounded-lg"
+                />
+              ) : (
+                <p className="text-white p-4">Video URL not available</p>
+              )}
+              <button
+                className="absolute top-2 right-2 bg-white text-black rounded-full w-8 h-8 flex items-center justify-center hover:bg-gray-200 transition"
+                onClick={() => setPlayingVideo(null)}
+              >
+                <X className="w-5 h-5 text-black" />
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

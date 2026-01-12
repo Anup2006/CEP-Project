@@ -6,6 +6,37 @@
   /* margin-left: -2rem; */
 }
 
+.search-container {
+  position: relative;
+  display: flex;
+  gap:1rem;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1rem;
+  height: 1rem;
+}
+
+.nav-button {
+  background-color: gray;
+  color: white;
+  font-weight: bold;
+  padding-left: 2.5rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.7rem 0.7rem 0.7rem 2.5rem;
+  border: 1px var(--color-border);
+  border-radius: 0.375rem;
+  background-color: rgb(243, 241, 241);
+  font-size: 1rem;
+}
+
 .resources-container {
   max-width: 80rem;
   margin: 0 auto;
