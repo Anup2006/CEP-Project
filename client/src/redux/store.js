@@ -3,12 +3,14 @@ import authReducer from './authSlice';
 import adminReducer from "./adminSlice";
 import careerReducer from "./careerSlice";
 import videoReducer from "./videoSlice";
+import quizReducer from "./quizSlice";
 
 export const store = configureStore({
     reducer: {
         auth: authReducer,
         admin: adminReducer, 
         career: careerReducer,
+        quiz: quizReducer,
         videos: videoReducer,
     },
 })

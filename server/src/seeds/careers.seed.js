@@ -8,10 +8,11 @@ dotenv.config();
 
 const seed = async () => {
   await mongoose.connect(`${process.env.MONGODB_URI}/${DB_NAME}`)
+  await Career.deleteMany();
   for (const career of careers) {
     await Career.create(career);
   }
-  console.log("✅ Careers seeded successfully");
+  console.log("✅ Career seeded successfully");
   process.exit();
 };
 

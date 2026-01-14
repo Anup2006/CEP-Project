@@ -225,12 +225,12 @@ export default function Resources() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search videos..."
               />
-              <button className="nav-button" onClick={handleSearch}>Search</button>
+              <button className="bg-gray-500 text-white font-bold px-4 rounded-lg" onClick={handleSearch}>Search</button>
               {user?.role === "admin" ? (
                 <button
-                className="nav-button" onClick={() => navigate("/app/admin/createVideo")}
+                className="bg-gray-500 text-white font-bold px-4 rounded-lg" onClick={() => navigate("/app/admin/createVideo")}
                 >
-                  + Add
+                  +Add
                 </button>
               ):(null)}
             </div>

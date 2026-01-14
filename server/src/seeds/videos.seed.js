@@ -29,7 +29,7 @@ const seedVideos = [
 const seedDB = async () => {
     await mongoose.connect(`${process.env.MONGODB_URI}/${DB_NAME}`)
     for (const video of seedVideos) {
-    await Video.create(video);
+      await Video.create(video);
     }
     console.log("✅ Careers seeded successfully");
     process.exit();

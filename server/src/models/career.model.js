@@ -16,6 +16,10 @@ const careerSchema = new Schema({
         type: String,
         required: true
     },
+    traits: [{ 
+      type: String, 
+      required: true 
+    }],
     detailedDescription:{
       type:String,
     },
@@ -82,4 +86,4 @@ careerSchema.pre("save", async function (next) {
   next();
 });
 
-export const Career= mongoose.model('Career',careerSchema);
+export const Career= mongoose.models.Career || mongoose.model('Career',careerSchema);

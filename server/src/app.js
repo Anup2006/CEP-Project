@@ -24,11 +24,13 @@ import userRouter from "./routes/user.routes.js"
 import careerRouter from "./routes/career.routes.js"
 import adminRouter from "./routes/admin.routes.js"
 import resourceRouter from "./routes/resource.routes.js"
+import quizRouter from "./routes/quiz.routes.js"
 
 //router declaration
 app.use("/api/v1/users",userRouter)
 app.use("/api/v1/careers", careerRouter);
 app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/materials", resourceRouter);
+app.use("/api/v1/career-quiz", quizRouter);
 
 export {app}
