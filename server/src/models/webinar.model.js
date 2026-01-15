@@ -2,46 +2,74 @@ import mongoose, {Schema} from "mongoose";
 import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 
 const webinarSchema = new Schema({
-    thumbnail:{
-        type:String,
-        required:true,
+    title: {
+      type: String,
+      required: true,
+      trim: true,
     },
-    title:{
-        type:String,
-        required:true,
+    description: {
+      type: String,
+      required: true,
     },
-    description:{
-        type:String,
-        required:true,
+    speaker: {
+      name: String,
+      bio: String,
+      avatar: String,
     },
-    schedule_date:{
-        type:String,
-        required:true,
+    date: {
+      type: Date,
+      required: true,
     },
-    schedule_time:{
-        type:String,
-        required:true,
+    duration: {
+      type: Number, 
+      required: true,
     },
-    live_link:{
-        type:String, //youtube/zoom link
-        required:true,
+    meetingLink: {
+      type: String, // Zoom / Google Meet / Teams
+      required: true,
     },
-    recorded_file:{
-        type:String, //recorded video file from cloudinary
-        default:null,
+    platform: {
+      type: String,
+      enum: ["zoom", "google-meet", "teams", "youtube"],
+      default: "zoom",
     },
-   
-    // Recording link (YouTube / Google Drive / Zoom Cloud)
-    recorded_link:{
-        type:String,
-        default:null,
+    capacity: {
+      type: Number,
+      default: 100,
     },
-    status:{
+    registeredUsers: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    recordingUrl: {
         type: String,
-        enum:['upcoming','live','completed'],
-        default:'upcoming',
+        default: null,
+        required: function () {
+            return this.status === "completed";
+        }
     },
-},{timestamps:true});
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+},{
+  timestamps:true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true },
+});
+
+webinarSchema.virtual("status").get(function () {
+  const now = new Date();
+  const start = new Date(this.date);
+  const end = new Date(start.getTime() + (this.duration || 60) * 60000); // duration in ms
+
+  if (now < start) return "upcoming";
+  if (now >= start && now <= end) return "live";
+  return "completed";
+});
 
 webinarSchema.plugin(mongooseAggregatePaginate)
 

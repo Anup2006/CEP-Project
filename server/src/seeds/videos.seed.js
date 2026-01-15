@@ -31,7 +31,7 @@ const seedDB = async () => {
     for (const video of seedVideos) {
       await Video.create(video);
     }
-    console.log("✅ Careers seeded successfully");
+    console.log("✅ Videos seeded successfully");
     process.exit();
 };
 

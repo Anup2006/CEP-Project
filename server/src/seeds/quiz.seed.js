@@ -5,7 +5,7 @@ import { DB_NAME,TRAITS } from "../constants.js";
 
 dotenv.config();
 
-export const quizQuestions = [
+const quizQuestions = [
   {
     question: "What subjects do you enjoy the most in school?",
     options: [

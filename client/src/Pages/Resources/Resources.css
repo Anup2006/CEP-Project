@@ -408,6 +408,10 @@
   background-color: black;
   color: white;
 }
+.webinar-status.live {
+  background-color: black;
+  color: white;
+}
 
 .webinar-status.completed {
   background-color:oklch(0.95 0.0058 264.53);

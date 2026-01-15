@@ -32,6 +32,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import AdminDashboard from "./Pages/Admin/AdminDashboard.jsx";
 import CreateCareer from "./Pages/Admin/CreateCareer.jsx";
 import CreateVideo from "./Pages/Admin/CreateVideo.jsx";
+import CreateWebinar from "./Pages/Admin/CreateWebinar.jsx";
 
 const GoogleAuthWrapper=()=>{
   return (
@@ -66,6 +67,7 @@ const router = createBrowserRouter(
           <Route path="admindashboard" element={<AdminDashboard/>} />
           <Route path="admin/createCareer" element={<CreateCareer/>} />
           <Route path="admin/createVideo" element={<CreateVideo/>} />
+          <Route path="admin/createWebinar" element={<CreateWebinar/>} />
           <Route path="admin/career/update/:id/:slug" element={<CreateCareer />} />
         </Route>
       </Route>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { ArrowLeft } from "lucide-react";
 import { addVideoByAdmin } from "../../redux/videoSlice.js";
 
 export default function CreateVideo() {
@@ -48,7 +49,7 @@ export default function CreateVideo() {
         });
 
         setTimeout(() => {
-          navigate("/app/resources");
+          navigate("/app/resources?tab=videos");
         }, 1500);
       })
       .catch((err) => {
@@ -62,9 +63,12 @@ export default function CreateVideo() {
         onSubmit={handleSubmit}
         className="bg-white rounded-xl shadow-md p-8 space-y-6"
       >
-        <h2 className="text-3xl font-bold text-gray-800">
-          Add New Video
-        </h2>
+        <div className="flex gap-4">
+          <ArrowLeft onClick={()=>{navigate("/app/resources?tab=videos")}}/>
+          <h2 className="text-3xl font-bold text-gray-800">
+            Add New Video
+          </h2>
+        </div>
 
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

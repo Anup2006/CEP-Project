@@ -3,13 +3,39 @@ import { authorizeRoles } from "../middlewares/role.middleware.js";
 import { verifyJwt } from "../middlewares/auth.middleware.js";
 import {upload} from "../middlewares/multer.middleware.js";
 import { addVideoByAdmin, getAllVideos, searchYoutubeVideos } from "../controllers/video.controller.js";
+import { getAllWebinars,createWebinar,registerForWebinar,getWebinarById,deleteWebinar,addRecordingLink} from "../controllers/webinar.controller.js";
 const router = Router()
 
+//videos
 router.route("/videos").get(getAllVideos)
 router.route("/videos/search").get(searchYoutubeVideos)
 router.route("/videos/create-video").post(verifyJwt,authorizeRoles("admin"),
     upload.single("video"),
     addVideoByAdmin
 )
+
+//webinar
+router.route("/webinars").get(getAllWebinars);
+router.route("/webinar/:id").get(getWebinarById);
+router.route("/create-webinar").post(
+  verifyJwt,
+  authorizeRoles("admin", "mentor"),
+  createWebinar
+);
+router.route("/webinars/:id/register").post(
+  verifyJwt,
+  authorizeRoles("student"),
+  registerForWebinar
+);
+router.route("/webinars/:id").delete(
+  verifyJwt,
+  authorizeRoles("admin"),
+  deleteWebinar
+);
+router.route("/webinars/:id/recording").patch(
+  verifyJwt,
+  authorizeRoles("admin", "mentor"),
+  addRecordingLink
+);
 
 export default router;

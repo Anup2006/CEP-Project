@@ -1,16 +1,29 @@
 import { useState,useRef } from "react";
-import { FileText, Download, Search, Play,X, ExternalLink, Calendar, Clock, Target, BookOpen, Users, Lightbulb } from "lucide-react";
+import { Edit,FileText, Download, Search, Play, X,Trash2, ExternalLink, Calendar, Clock, Target, BookOpen, Users, Lightbulb } from "lucide-react";
 import "./Resources.css";
+import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import {
   fetchAllVideos,
   searchYoutubeVideos,
 } from "../../redux/videoSlice.js";
+import { fetchWebinars, registerWebinar,deleteWebinar  } from "../../redux/webinarSlice.js";
+import WebinarDetail from "./webinarDetail.jsx";
+import AddRecording from "../Admin/AddRecording.jsx";
 
 export default function Resources() {
   const [activeTab, setActiveTab] = useState("materials");
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const tabFromQuery = searchParams.get("tab") || "materials";
+  
+  useEffect(() => {
+      setActiveTab(tabFromQuery);
+  }, [tabFromQuery]);
+  
+
   const [searchQuery, setSearchQuery] = useState("");
   const { videos, loading,error } = useSelector((state) => state.videos);
   const {user,token} = useSelector(state=>state.auth);
@@ -87,35 +100,77 @@ export default function Resources() {
     return "";
   };
 
-  const webinars = [
-    {
-      id: 1,
-      title: "Career Opportunities in Artificial Intelligence",
-      date: "2024-01-15",
-      time: "7:00 PM IST",
-      speaker: "Dr. Amit Verma, AI Researcher",
-      status: "upcoming",
-      description: "Explore the growing field of AI and machine learning, with insights on required skills and career paths."
-    },
-    {
-      id: 2,
-      title: "Medical Entrance Exam Strategy",
-      date: "2024-01-08",
-      time: "6:00 PM IST", 
-      speaker: "Dr. Kavita Rao, NEET Expert",
-      status: "completed",
-      description: "Comprehensive strategy for NEET preparation and medical college selection."
-    },
-    {
-      id: 3,
-      title: "Entrepreneurship for Young Minds",
-      date: "2024-01-22",
-      time: "7:30 PM IST",
-      speaker: "Mr. Rohit Aggarwal, Startup Founder",
-      status: "upcoming",
-      description: "Learn about startup ecosystem, funding, and how to start your entrepreneurial journey."
+  const { webinars, loading: webinarLoading } = useSelector((state) => state.webinars);
+
+  useEffect(() => {
+    if (activeTab === "webinars") {
+      dispatch(fetchWebinars());
     }
-  ];
+  }, [activeTab, dispatch]);
+
+  const handleDelete = (webinarId) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this webinar?"
+    );
+
+    if (!confirmDelete) return;
+
+    dispatch(deleteWebinar({webinarId: webinarId,token,}))
+    .unwrap()
+    .then(() => {
+      toast.success("Successfully Deleted", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
+    })
+    .catch((err) => {
+        toast.error(err.message || "Failed to delete webinar");
+    });
+
+  };
+
+  const [selectedWebinarId, setSelectedWebinarId] = useState(null);
+  const [showWebinarModal, setShowWebinarModal] = useState(false);
+
+  const [showRecordingModal, setShowRecordingModal] = useState(false);
+  const handleEdit=()=>{
+      setShowRecordingModal(true);
+  }
+
+  const handleRegister = (webinarId) => {
+    dispatch(
+      registerWebinar({
+        webinarId,
+        token,
+      })
+    )
+      .unwrap()
+      .then(() => {
+        toast.success("Successfully registered for webinar", {
+          position: "top-right",
+          autoClose: 3000,
+          theme: "colored",
+        });
+      })
+      .catch((err) => {
+        toast.error(err?.message || "Failed to register webinar", {
+          position: "top-right",
+        });
+      });
+  };
+
+  const isRegistered = (webinar, userId) => {
+    if (!webinar.registeredUsers || !userId) return false;
+
+    return webinar.registeredUsers.some(
+      (u) => u === userId || u?._id === userId
+    );
+  };
 
   const careerTips = [
     {
@@ -277,15 +332,27 @@ export default function Resources() {
           {/* Webinars Tab */}
           {activeTab === "webinars" && (
             <div className="webinars-list">
+              {user?.role === "admin" ? (
+                <button
+                  onClick={() => navigate("/app/admin/createWebinar")}
+                  className="bg-gray-400 text-white hover:bg-gray-600 px-4 py-2 rounded-lg w-full mb-2"
+                >
+                  + Create Webinar
+                </button>
+              ):(null)}
+              {webinarLoading && <p>Loading webinars...</p>}
               {webinars.map((webinar) => (
-                <div key={webinar.id} className="webinar-card">
+                <div key={webinar._id} className="webinar-card">
                   <div className="webinar-content">
-                    <div className="webinar-main">
+                    <div className="webinar-main" onClick={() => {
+                    setSelectedWebinarId(webinar._id);
+                    setShowWebinarModal(true);}}
+                    >
                       <div className="webinar-info">
                         <div className="webinar-title-row">
                           <h3 className="webinar-title">{webinar.title}</h3>
                           <span className={`webinar-status ${webinar.status}`}>
-                            {webinar.status === "upcoming" ? "Upcoming" : "Completed"}
+                            {webinar.status}
                           </span>
                         </div>
                         <p className="webinar-description">{webinar.description}</p>
@@ -300,25 +367,102 @@ export default function Resources() {
                           </div>
                           <div className="webinar-detail">
                             <Clock className="calendar-icon" />
-                            <span>{webinar.time}</span>
+                            <span>{webinar.duration} min</span>
                           </div>
                         </div>
                       </div>
                       <div className="webinar-action">
-                        {webinar.status === "upcoming" ? (
-                          <button className="register-button">
+                        {webinar.status === "upcoming" && user?.role === "student" &&
+                          !isRegistered(webinar, user._id)(   
+                          <button
+                            className="register-button"
+                            onClick={() => handleRegister(webinar._id)}
+                          >
                             Register Now
                           </button>
-                        ) : (
-                          <button className="view-recording-button">
-                            View Recording
-                          </button>
                         )}
+
+                        {webinar.status === "upcoming" &&
+                          user?.role === "student" &&
+                          isRegistered(webinar, user._id) && (
+                            <span className="text-green-600 font-semibold">
+                              Registered ✔
+                            </span>
+                        )}
+
+                        {webinar.status === "live" &&
+                          !isRegistered(webinar, user._id) && (
+                            <p className="text-sm text-red-500">
+                              You didn't register!!
+                            </p>
+                        )}
+
+                        {webinar.status === "live" && webinar.meetingLink && 
+                          user && 
+                          isRegistered(webinar, user._id) &&  (
+                          <a
+                            href={webinar.meetingLink}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="view-recording-button"
+                          >
+                            Join Live
+                          </a>
+                        )}
+
+                        {webinar.status === "completed" && webinar.recordingUrl && (
+                          <a
+                            href={webinar.recordingUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="view-recording-button"
+                          >
+                            View Recording
+                          </a>
+                        )}
+
+                        {(user?.role === "admin" || user?.role === "mentor")? (
+                          <div>
+                            <button 
+                              className="delete-icon top-2 right-2 ml-2 px-1 hover:bg-red-100 rounded-full"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDelete(webinar._id);
+                              }}
+                            >
+                              <Trash2 className="w-5 h-5 text-red-600" />
+                            </button>
+                            <button 
+                              className="delete-icon top-2 right-2 ml-2 px-1 hover:bg-gray-200 rounded-full"
+                              onClick={(e)=>{
+                                e.stopPropagation();
+                                handleEdit()}
+                              }
+                            >
+                              <Edit className="w-5 h-5 text-gray-600" />
+                            </button>
+                            {showRecordingModal && webinar.status === "completed" &&(
+                              <AddRecording
+                                webinarId={webinar._id} 
+                                token={token}          
+                                onClose={() => setShowRecordingModal(false)} 
+                              />
+                            )}
+                          </div>
+                        ):(null)}
                       </div>
                     </div>
                   </div>
                 </div>
               ))}
+              {showWebinarModal && selectedWebinarId && (
+                <WebinarDetail
+                  webinarId={selectedWebinarId}
+                  token={token}
+                  show={showWebinarModal}
+                  onClose={() => setShowWebinarModal(false)}
+                />
+              )}
             </div>
           )}
 

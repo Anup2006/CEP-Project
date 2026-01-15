@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import {ArrowLeft} from "lucide-react";
 import { toast } from "react-toastify";
 import {
   createCareer,
@@ -161,9 +162,12 @@ export default function CreateCareer() {
         onSubmit={handleSubmit}
         className="bg-white rounded-xl shadow-md p-8 space-y-6"
       >
-        <h2 className="text-3xl font-bold text-gray-800">
-           {isEditMode ? "Update Career" : "Create Career"}
-        </h2>
+        <div className="flex gap-4">
+          <ArrowLeft onClick={()=>{navigate("/app/explore-careers")}}/>  
+          <h2 className="text-3xl font-bold text-gray-800">
+            {isEditMode ? "Update Career" : "Create Career"}
+          </h2>
+        </div>
 
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
