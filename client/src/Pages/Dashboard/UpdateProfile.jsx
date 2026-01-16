@@ -49,7 +49,7 @@ export default function UpdateProfile(){
                                     <img 
                                         src={previewUrl}
                                         alt="Profile Pic" 
-                                        className=" mt-15 w-full h-full rounded-full object-cover"
+                                        className="  w-full h-full rounded-full object-cover"
                                         />
                                     <input  
                                         id="avatar"
@@ -179,7 +179,7 @@ export default function UpdateProfile(){
                                     {isSubmitting && (
                                         <div className="loading-spinner"></div>
                                     )}
-                                    {isSubmitting ? "Updating..." : "Edit"}
+                                    {isSubmitting ? "Updating..." : "Update"}
                                 </button>
                             </form>
                             </div>

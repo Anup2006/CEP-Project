@@ -60,6 +60,9 @@ const userSchema = new Schema({
     isEmailVerified: {
         type: Boolean,
     },
+    address:{
+        type:String
+    },
     role: {
         type: String,
         enum: ["student", "mentor", "admin"],

@@ -255,6 +255,8 @@
 .contact-info-details {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .contact-info-label1 {
@@ -267,11 +269,10 @@
   font-size: 0.875rem;
   font-weight: 500;
   color: black;
-  margin-bottom: 0.25rem;
 }
 
 .contact-info-subtitle {
-  font-size: 1rem;
+  font-size: 0.875rem;
   color: var(--color-muted-foreground);
 }
 
@@ -366,8 +367,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 1350px;
-  margin-left: -2rem ;
+  width: 100%;
 }
 
 .success-card {

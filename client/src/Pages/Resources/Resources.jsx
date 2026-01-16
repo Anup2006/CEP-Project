@@ -296,7 +296,7 @@ export default function Resources() {
                             </span>
                           </div>
                         </div>
-                        <FileText className="material-icon" />
+                        <FileText className="material-icon pb-1" />
                         {(user?.role === "admin" || user?.role === "mentor")? (
                         <div>
                           <button 
@@ -678,16 +678,16 @@ export default function Resources() {
                 <h3 className="font-semibold">{preview.title}</h3>
                 <button
                   onClick={forceDownload}
-                  className="download-button mt-2"
+                  className="download-button mt-2 mr-10"
                 >
                   <Download className="download-icon" />Download
                 </button>
 
                 <button
-                  className="absolute top-2 right-2 mt-3 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-gray-200 transition"
+                  className="absolute top-2 right-2 mt-5 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-gray-200 transition"
                   onClick={() => setPreview(null)}
                   >
-                  <X className="w-5 h-5 text-black" />
+                  <X className="w-5 h-5  text-black" />
                 </button>
               </div>
               {/* Browser PDF Viewer */}

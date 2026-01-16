@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Mail, Phone, MapPin, Clock, CheckCircle } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { sendContactMessage, resetContactState } from "../../redux/contactSlice.js";
 import "./Contact.css";
+import { toast } from "react-toastify";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -8,11 +11,11 @@ export default function Contact() {
     email: "",
     phone: "",
     subject: "",
-    class: "",
     message: ""
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const dispatch = useDispatch();
+  const { loading, success, error } = useSelector((state) => state.contact);
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -24,13 +27,22 @@ export default function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 2000);
+    dispatch(sendContactMessage(formData))
+    .unwrap()
+    .then(() => {
+      toast.success("Successfully message send", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
+    })
+    .catch((err) => {
+        toast.error(err.message || "Failed to send message");
+    });
   };
 
   const faqItems = [
@@ -60,7 +72,24 @@ export default function Contact() {
     }
   ];
 
-  if (isSubmitted) {
+  useEffect(() => {
+    if (success) {
+      const timer = setTimeout(() => {
+        dispatch(resetContactState());
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          subject: "",
+          message: ""
+        });
+      }, 3000); // 3 seconds
+
+      return () => clearTimeout(timer);
+    }
+  }, [success, dispatch]);
+
+  if (success) {
     return (
       <div className="success-screen">
         <div className="success-card">
@@ -151,26 +180,6 @@ export default function Contact() {
                       placeholder="Enter your phone number"
                     />
                   </div>
-                  <div className="form-group">
-                    <label htmlFor="class" className="form-label">
-                      Current Class
-                    </label>
-                    <select
-                      id="class"
-                      name="class"
-                      value={formData.class}
-                      onChange={handleInputChange}
-                      className="form-select"
-                    >
-                      <option value="">Select your class</option>
-                      <option value="class-9">Class 9</option>
-                      <option value="class-10">Class 10</option>
-                      <option value="class-11">Class 11</option>
-                      <option value="class-12">Class 12</option>
-                      <option value="graduate">Graduate</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </div>
                 </div>
 
                 <div className="form-group">
@@ -205,16 +214,10 @@ export default function Contact() {
                   />
                 </div>
 
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="submit-button"
-                >
-                  {isSubmitting && (
-                    <div className="loading-spinner"></div>
-                  )}
-                  {isSubmitting ? "Sending..." : "Send Message"}
-                </button>
+                <button type="submit" disabled={loading} className="submit-button">
+                  {loading && <div className="loading-spinner"></div>}
+                  {loading ? "Sending..." : "Send Message"}
+              </button>
               </form>
             </div>
           </div>
