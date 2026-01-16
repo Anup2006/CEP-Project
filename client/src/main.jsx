@@ -33,7 +33,7 @@ import AdminDashboard from "./Pages/Admin/AdminDashboard.jsx";
 import CreateCareer from "./Pages/Admin/CreateCareer.jsx";
 import CreateVideo from "./Pages/Admin/CreateVideo.jsx";
 import CreateWebinar from "./Pages/Admin/CreateWebinar.jsx";
-import AddMaterial from "./Pages/Admin/addMaterial.jsx";
+import AddMaterial from "./Pages/Admin/AddMaterial.jsx";
 
 const GoogleAuthWrapper=()=>{
   return (

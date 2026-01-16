@@ -12,7 +12,6 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
-    "build": "node src/index.js",
     "seed": "node src/seeds/careers.seed.js",
     "videoSeed":"node src/seeds/videos.seed.js",
     "quizSeed":"node src/seeds/quiz.seed.js",
