@@ -18,6 +18,13 @@ app.use(express.static("public"))
 
 app.use(cookieParser())
 
+app.get("/", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Career Orientation API is running 🚀"
+  });
+});
+
 
 //router import 
 import userRouter from "./routes/user.routes.js"
