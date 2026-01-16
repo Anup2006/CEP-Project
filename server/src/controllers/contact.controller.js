@@ -1,4 +1,4 @@
-import { Contact } from "../models/contact.model.js"; // now points to 'Career' model
+import { Contact } from "../models/contact.model.js"; 
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { apiError } from "../utils/apiError.js";
 import { apiResponse } from "../utils/apiResponse.js";

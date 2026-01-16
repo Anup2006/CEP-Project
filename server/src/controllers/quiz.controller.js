@@ -1,5 +1,5 @@
 import {QuizQuestion} from "../models/quizQuestion.model.js";
-import {Career} from "../models/Career.model.js";
+import {Career} from "../models/career.model.js";
 import {QuizResult} from "../models/quizResult.model.js";
 import { calculateTraitScores, matchCareers } from "../utils/quizService.js"
 import { asyncHandler } from "../utils/asyncHandler.js";
