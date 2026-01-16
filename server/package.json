@@ -15,7 +15,8 @@
     "seed": "node src/seeds/careers.seed.js",
     "videoSeed":"node src/seeds/videos.seed.js",
     "quizSeed":"node src/seeds/quiz.seed.js",
-    "webinarSeed":"node src/seeds/webinar.seed.js"
+    "webinarSeed":"node src/seeds/webinar.seed.js",
+    "materialSeed":"node src/seeds/studyMaterial.seed.js"
   },
   "devDependencies": {
     "nodemon": "^3.1.10",

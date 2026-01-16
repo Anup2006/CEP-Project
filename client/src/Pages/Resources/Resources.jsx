@@ -6,10 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate,useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import {
+  deleteVideo,
   fetchAllVideos,
   searchYoutubeVideos,
 } from "../../redux/videoSlice.js";
 import { fetchWebinars, registerWebinar,deleteWebinar  } from "../../redux/webinarSlice.js";
+import { deleteStudyMaterial, fetchStudyMaterials } from "../../redux/studyMaterialSlice.js";
 import WebinarDetail from "./webinarDetail.jsx";
 import AddRecording from "../Admin/AddRecording.jsx";
 
@@ -22,7 +24,6 @@ export default function Resources() {
   useEffect(() => {
       setActiveTab(tabFromQuery);
   }, [tabFromQuery]);
-  
 
   const [searchQuery, setSearchQuery] = useState("");
   const { videos, loading,error } = useSelector((state) => state.videos);
@@ -31,42 +32,57 @@ export default function Resources() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
-  const studyMaterials = [
-    {
-      id: 1,
-      title: "Class 10 Science Stream Guide",
-      type: "PDF",
-      description: "Complete guide covering Physics, Chemistry, Biology fundamentals and career paths in science.",
-      pages: 45,
-      category: "Class 10"
-    },
-    {
-      id: 2,
-      title: "Engineering Entrance Exam Preparation",
-      type: "PDF",
-      description: "Comprehensive preparation material for JEE Main, JEE Advanced, and other engineering entrance exams.",
-      pages: 128,
-      category: "Engineering"
-    },
-    {
-      id: 3,
-      title: "Medical Career Pathways",
-      type: "PDF", 
-      description: "Detailed information about NEET preparation, medical specializations, and career opportunities.",
-      pages: 67,
-      category: "Medical"
-    },
-    {
-      id: 4,
-      title: "Commerce Stream Opportunities",
-      type: "PDF",
-      description: "Guide to CA, CS, finance careers, and business opportunities for commerce students.",
-      pages: 52,
-      category: "Commerce"
+  const { materials, loading:materialloading } = useSelector((state) => state.studyMaterials);
+  const [preview, setPreview]=useState(null);
+
+  useEffect(() => {
+    if (activeTab === "materials") {
+      dispatch(fetchStudyMaterials());
     }
-  ];
-  
-  
+  }, [activeTab, dispatch]);  
+
+  const handleDeleteMaterial=(materialId)=>{
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this study material?"
+    );
+
+    if (!confirmDelete) return;
+
+    dispatch(deleteStudyMaterial({ materialId,token}))
+    .unwrap()
+    .then(() => {
+      toast.success("Successfully Deleted", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
+    })
+    .catch((err) => {
+        toast.error(err.message || "Failed to delete study material");
+    });
+  }
+
+  const forceDownload = async () => {
+    const res = await fetch(preview.fileUrl);
+    const blob = await res.blob();
+
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${preview.title || "study-material"}.pdf`;
+
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    window.URL.revokeObjectURL(url);
+  };
+
+
   useEffect(() => {
     if (activeTab === "videos") {
       dispatch(fetchAllVideos());
@@ -79,7 +95,7 @@ export default function Resources() {
   };
   
   const mappedVideos = videos?.map((video, index) => ({
-    id: video.id || index,
+    id: video._id || index,
     title: video.title,
     description: video.description,
     source: video.source,      
@@ -100,6 +116,31 @@ export default function Resources() {
     return "";
   };
 
+  const handleDeleteVideo=(videoId)=>{
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this video?"
+    );
+
+    if (!confirmDelete) return;
+
+    dispatch(deleteVideo({ videoId,token}))
+    .unwrap()
+    .then(() => {
+      toast.success("Successfully Deleted", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
+    })
+    .catch((err) => {
+        toast.error(err.message || "Failed to delete video");
+    });
+  }
+
   const { webinars, loading: webinarLoading } = useSelector((state) => state.webinars);
 
   useEffect(() => {
@@ -115,7 +156,7 @@ export default function Resources() {
 
     if (!confirmDelete) return;
 
-    dispatch(deleteWebinar({webinarId: webinarId,token,}))
+    dispatch(deleteWebinar({webinarId: webinarId,token}))
     .unwrap()
     .then(() => {
       toast.success("Successfully Deleted", {
@@ -231,9 +272,17 @@ export default function Resources() {
           {/* Study Materials Tab */}
           {activeTab === "materials" && (
             <div className="tab-content">
+              {user?.role === "admin" ? (
+                <button
+                  onClick={() => navigate("/app/admin/addMaterial")}
+                  className="bg-gray-400 text-white hover:bg-gray-600 px-4 py-2 rounded-lg w-full mb-2"
+                >
+                  + Add Material
+                </button>
+              ):(null)}
               <div className="materials-grid">
-                {studyMaterials.map((material) => (
-                  <div key={material.id} className="material-card">
+                {materials.map((material) => (
+                  <div key={material._id} className="material-card">
                     <div className="material-header">
                       <div className="material-title-section">
                         <div className="material-title-content">
@@ -248,16 +297,37 @@ export default function Resources() {
                           </div>
                         </div>
                         <FileText className="material-icon" />
+                        {(user?.role === "admin" || user?.role === "mentor")? (
+                        <div>
+                          <button 
+                            className="delete-icon top-2 right-2 ml-2 px-1 hover:bg-red-100 rounded-full"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteMaterial(material._id);
+                            }}
+                          >
+                            <Trash2 className="w-5 h-5 text-red-600" />
+                          </button>
+                        </div>):(null)}
                       </div>
                       <p className="material-description">{material.description}</p>
                     </div>
                     <div className="material-content">
                       <div className="material-footer">
                         <span className="material-pages">{material.pages} pages</span>
-                        <button className="download-button">
-                          <Download className="download-icon" />
-                          Download
-                        </button>
+                        <div className="flex gap-2">
+                          <button className="download-button mt-2"
+                            onClick={()=>{setPreview(material)}}
+                          >
+                            Preview 
+                          </button>
+                          <button
+                            onClick={forceDownload}
+                            className="download-button mt-2"
+                          >
+                            <Download className="download-icon" />Download
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -292,13 +362,13 @@ export default function Resources() {
             <div className="videos-grid mt-4">
               {loading && <p>Loading videos...</p>}
               {mappedVideos.map((video) => (
-                <div key={video.youtubeVideoId || video._id} className="video-card">
+                <div key={video.youtubeVideoId || video.id} className="video-card">
                   <div className="video-thumbnail">
                     <img 
                       src={video.thumbnail} 
                       alt={video.title}
                       className="video-image"
-                    />
+                      />
                     <div className="video-overlay">
                       <div className="play-button">
                         <Play className="play-icon" />
@@ -315,12 +385,26 @@ export default function Resources() {
                   <div className="video-content">
                     <div className="video-footer">
                       <span className="video-views">{video.views.toLocaleString() || "-"} views</span>
-                      <button className="watch-button mt-2"
-                         onClick={() => setPlayingVideo(video)}
-                      >
-                        <ExternalLink className="external-icon" />
-                        Watch Video
-                      </button>
+                      <div className="flex">
+                        <button className="watch-button mt-2"
+                          onClick={() => setPlayingVideo(video)}
+                        >
+                          <ExternalLink className="external-icon" />
+                          Watch Video
+                        </button>
+                        {(user?.role === "admin" || user?.role === "mentor")? (
+                          <div>
+                            <button 
+                              className="delete-icon top-2 mt-4 right-2 ml-2 px-1 hover:bg-red-100 rounded-full"
+                              onClick={(e) => {
+                                e.stopPropagation();                              
+                                handleDeleteVideo(video.youtubeVideoId || video.id);
+                              }}
+                            >
+                              <Trash2 className="w-5 h-5 text-red-600" />
+                            </button>
+                          </div>):(null)}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -373,7 +457,7 @@ export default function Resources() {
                       </div>
                       <div className="webinar-action">
                         {webinar.status === "upcoming" && user?.role === "student" &&
-                          !isRegistered(webinar, user._id)(   
+                          !isRegistered(webinar, user._id) &&(   
                           <button
                             className="register-button"
                             onClick={() => handleRegister(webinar._id)}
@@ -432,7 +516,7 @@ export default function Resources() {
                             >
                               <Trash2 className="w-5 h-5 text-red-600" />
                             </button>
-                            <button 
+                            {webinar.status === "completed" &&<button 
                               className="delete-icon top-2 right-2 ml-2 px-1 hover:bg-gray-200 rounded-full"
                               onClick={(e)=>{
                                 e.stopPropagation();
@@ -440,7 +524,7 @@ export default function Resources() {
                               }
                             >
                               <Edit className="w-5 h-5 text-gray-600" />
-                            </button>
+                            </button>}
                             {showRecordingModal && webinar.status === "completed" &&(
                               <AddRecording
                                 webinarId={webinar._id} 
@@ -580,6 +664,42 @@ export default function Resources() {
             </div>
           </div>
         )}
+        {preview&& (
+          <div
+            className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50"
+            onClick={() => setPreview(null)}
+          >
+            <div
+              className="bg-white w-11/12 md:w-3/4 lg:w-2/3 h-[85vh] rounded-lg relative"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Header */}
+              <div className="flex justify-between items-center p-4 border-b">
+                <h3 className="font-semibold">{preview.title}</h3>
+                <button
+                  onClick={forceDownload}
+                  className="download-button mt-2"
+                >
+                  <Download className="download-icon" />Download
+                </button>
+
+                <button
+                  className="absolute top-2 right-2 mt-3 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-gray-200 transition"
+                  onClick={() => setPreview(null)}
+                  >
+                  <X className="w-5 h-5 text-black" />
+                </button>
+              </div>
+              {/* Browser PDF Viewer */}
+              <iframe
+                src={preview.fileUrl}
+                className="w-full h-full"
+                title="PDF Preview"
+              />
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   );

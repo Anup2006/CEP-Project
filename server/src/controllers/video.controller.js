@@ -184,9 +184,9 @@ const getAllVideos = asyncHandler(async (req, res) => {
 });
 
 const deleteVideo = asyncHandler(async (req, res) => {
-  const { videoId } = req.params;
+  const { id } = req.params;
 
-  const video = await Video.findById(videoId);
+  const video = await Video.findById(id);
   if (!video) {
     throw new apiError(404, "Video not found");
   }

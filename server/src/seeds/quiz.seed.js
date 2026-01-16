@@ -94,7 +94,7 @@ const seedDB = async () => {
     for (const question of quizQuestions) {
         await QuizQuestion.create(question);
     }
-    console.log("✅ Questions seeded successfully");
+    console.log("Questions seeded successfully");
     process.exit();
 };
 

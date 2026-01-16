@@ -12,7 +12,7 @@ const seed = async () => {
   for (const career of careers) {
     await Career.create(career);
   }
-  console.log("✅ Career seeded successfully");
+  console.log("Career seeded successfully");
   process.exit();
 };
 

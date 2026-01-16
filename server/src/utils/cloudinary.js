@@ -11,8 +11,11 @@ const uploadOnCloudinary= async (localFilePath) =>{
     try {
         if (!localFilePath) return null;
         //upload file on cloudinary 
+        const isPdf = localFilePath.endsWith(".pdf");
+
         const response = await cloudinary.uploader.upload(localFilePath,{
-            resource_type: "auto"
+            resource_type: isPdf ? "raw" : "auto",
+            type: "upload",   
         })
         fs.unlinkSync(localFilePath)
         return response;

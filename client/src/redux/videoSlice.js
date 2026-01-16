@@ -48,6 +48,22 @@ const addVideoByAdmin = createAsyncThunk(
   }
 );
 
+const deleteVideo = createAsyncThunk(
+  "videos/delete",
+  async ({ videoId, token }, { rejectWithValue }) => {
+    try {
+      console.log(videoId)
+      await axios.delete(`${BACKEND_URL}/videos/${videoId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return videoId;
+    } catch (err) {
+      return rejectWithValue(err.response.data.message);
+    }
+  }
+);
 
 const initialState = {
     videos: [],
@@ -108,10 +124,17 @@ const videoSlice = createSlice({
         state.loading = false;
         state.error =
           action.payload?.message || "Failed to add video";
+      })
+
+      // delete
+      .addCase(deleteVideo.fulfilled, (state, action) => {
+          state.videos = state.videos.filter(
+              (w) => w._id !== action.payload
+          );
       });
   },
 });
 
 export const { clearVideos } = videoSlice.actions;
-export {fetchAllVideos,searchYoutubeVideos,addVideoByAdmin}
+export {fetchAllVideos,searchYoutubeVideos,addVideoByAdmin,deleteVideo}
 export default videoSlice.reducer;

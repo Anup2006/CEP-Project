@@ -67,7 +67,7 @@ const seedWebinars = async () => {
     for (const webinar of webinars) {
         await Webinar.create(webinar);
     }
-    console.log("✅ Webinars seeded successfully");
+    console.log("Webinars seeded successfully");
     process.exit();
 };
 

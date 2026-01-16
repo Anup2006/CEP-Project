@@ -19,7 +19,8 @@ export default function CreateWebinar() {
     meetingLink: "",
     platform: "",
     capacity: "",
-    speaker: "",
+    speakerName:"",
+    speakerBio: "",
   });
 
   const handleChange = (e) => {
@@ -31,6 +32,10 @@ export default function CreateWebinar() {
 
     const payload = {
       ...form,
+      speaker: {
+        name: form.speakerName,
+        bio: form.speakerBio,
+      },
       duration: Number(form.duration),
       capacity: Number(form.capacity),
     };
@@ -71,13 +76,20 @@ export default function CreateWebinar() {
             required
           />
           <Input
-            name="speaker"
+            name="speakerName"
             placeholder="Speaker Name"
-            value={form.speaker}
+            value={form.speakerName}
             onChange={handleChange}
+            required
           />
         </div>
 
+        <Input
+          name="speakerBio"
+          placeholder="Speaker Bio (Ex-Amazon SDE, AI Researcher)"
+          value={form.speakerBio}
+          onChange={handleChange}
+        />
         <Textarea
           name="description"
           placeholder="Webinar Description"

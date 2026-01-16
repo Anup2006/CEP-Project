@@ -5,6 +5,7 @@ import careerReducer from "./careerSlice";
 import videoReducer from "./videoSlice";
 import quizReducer from "./quizSlice";
 import webinarReducer from "./webinarSlice";
+import studyMaterialReducer from "./studyMaterialSlice"
 
 export const store = configureStore({
     reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
         quiz: quizReducer,
         videos: videoReducer,
         webinars: webinarReducer,
+        studyMaterials: studyMaterialReducer,
     },
 })

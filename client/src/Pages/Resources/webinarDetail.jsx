@@ -46,9 +46,11 @@ export default function WebinarDetail({ webinarId, token, show, onClose}) {
           </button>
         </div>
         <p>{webinar.description}</p>
+        <p>Speaker Name : {webinar.speaker.name}</p>
+        <p>Speaker Bio : {webinar.speaker.bio}</p>
         {webinar.createdBy?.fullname && (
           <span>
-            👤 {webinar.createdBy.fullname}
+            Created By : 👤 {webinar.createdBy.fullname}
           </span>
         )}
         <p>
