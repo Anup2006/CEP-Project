@@ -94,10 +94,10 @@ const updateAvatar=createAsyncThunk(
 
 const googleLoginUser = createAsyncThunk(
   "auth/googleLoginUser",
-  async ({ token, isSignup }, { rejectWithValue }) => {
+  async ({ code, isSignup }, { rejectWithValue }) => {
     try {
       const endpoint = isSignup ? "googleSignup" : "googleLogin";
-      const res = await axios.post(`${BACKEND_URL}/${endpoint}`, { token }, { withCredentials: true });
+      const res = await axios.post(`${BACKEND_URL}/${endpoint}`, { code }, { withCredentials: true });
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Google auth failed");

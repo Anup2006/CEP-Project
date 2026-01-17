@@ -6,9 +6,11 @@ import {googleLoginUser} from '../../redux/authSlice.js';
 export default function GoogleButton({ isSignup }){
     const dispatch = useDispatch();
     const googleLogin=useGoogleLogin({
-        onSuccess: (tokenResponse) => {
+        flow: "auth-code", 
+        redirect_uri: window.location.origin, 
+        onSuccess: (codeResponse) => {
             // tokenResponse contains access_token or credential
-            dispatch(googleLoginUser({ token: tokenResponse.access_token, isSignup }));
+            dispatch(googleLoginUser({  code: codeResponse.code, isSignup }));
         },
         onError: () => {
             toast.error("Google Authentication Failed");

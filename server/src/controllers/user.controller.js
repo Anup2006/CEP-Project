@@ -340,27 +340,44 @@ const updateUserAvatar = asyncHandler(async(req,res)=>{
 
 import axios from "axios";
 
-const getGoogleUser = async (accessToken) => {
-  const { data } = await axios.get(
-    "https://www.googleapis.com/oauth2/v3/userinfo",
+const getGoogleUser = async (code) => {
+  const { data } = await axios.post(
+    "https://oauth2.googleapis.com/token",
+    {
+      code,
+      client_id: process.env.GOOGLE_CLIENT_ID,
+      client_secret: process.env.GOOGLE_CLIENT_SECRET,
+      redirect_uri: process.env.GOOGLE_REDIRECT_URI,
+      grant_type: "authorization_code",
+    },
     {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
       },
     }
   );
-  return data;
+  
+  const userInfo = await axios.get(
+    "https://www.googleapis.com/oauth2/v3/userinfo",
+    {
+      headers: {
+        Authorization: `Bearer ${data.access_token}`,
+      },
+    }
+  );
+
+  return userInfo.data;
 };
 
 
 const googleLogin = asyncHandler(async(req,res)=>{
-    const { token } = req.body;
+    const { code } = req.body;
 
-  if (!token) {
+  if (!code) {
     throw new apiError(400, "Google token is required");
   }
 
-  const { sub, email, picture } = await getGoogleUser(token);
+  const { sub, email, picture } = await getGoogleUser(code);
 
   let user = await User.findOne({ email });
 
@@ -401,13 +418,13 @@ const googleLogin = asyncHandler(async(req,res)=>{
 })
 
 const googleSignUp = asyncHandler(async(req,res)=>{
-    const { token } = req.body;
+    const { code } = req.body;
 
-    if (!token) {
+    if (!code) {
         throw new apiError(400, "Google token is required");
     }
 
-    const { sub, email, name, picture } = await getGoogleUser(token);
+    const { sub, email, name, picture } = await getGoogleUser(code);
 
     const existedUser = await User.findOne({ email });
     if (existedUser) {
