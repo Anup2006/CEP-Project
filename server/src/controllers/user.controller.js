@@ -126,6 +126,7 @@ const verifyEmailOtp= asyncHandler(async(req,res)=>{
     const options={
         httpOnly:true,
         secure:true,
+        sameSite: "none",
     }
 
     return res.status(201)
@@ -171,6 +172,7 @@ const loginUser=asyncHandler(async(req,res)=>{
     const options={
         httpOnly:true,
         secure:true,
+        sameSite: "none",
     }
 
     return res.status(200)
@@ -352,7 +354,7 @@ const getGoogleUser = async (code) => {
     },
     {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
       },
     }
   );
@@ -402,6 +404,7 @@ const googleLogin = asyncHandler(async(req,res)=>{
   const options = {
     httpOnly: true,
     secure: true,
+    sameSite: "none",
   };
 
   return res
@@ -455,6 +458,7 @@ const googleSignUp = asyncHandler(async(req,res)=>{
     const options = {
         httpOnly: true,
         secure: true,
+        sameSite: "none",
     };
 
     return res

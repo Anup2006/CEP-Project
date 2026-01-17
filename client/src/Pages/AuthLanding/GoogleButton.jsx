@@ -7,7 +7,7 @@ export default function GoogleButton({ isSignup }){
     const dispatch = useDispatch();
     const googleLogin=useGoogleLogin({
         flow: "auth-code", 
-        redirect_uri: window.location.origin, 
+        redirect_uri: import.meta.env.VITE_GOOGLE_REDIRECT_URI, 
         onSuccess: (codeResponse) => {
             // tokenResponse contains access_token or credential
             dispatch(googleLoginUser({  code: codeResponse.code, isSignup }));
