@@ -9,6 +9,7 @@ const sendContactMessage = createAsyncThunk(
   async (formData, { rejectWithValue }) => {
     try {
       const res = await axios.post(`${BACKEND_URL}/send`, formData);
+      console.log(res.data.data)
       return res.data.data;
     } catch (error) {
       return rejectWithValue(

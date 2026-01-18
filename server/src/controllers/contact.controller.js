@@ -45,7 +45,7 @@ const sendMessage = asyncHandler(async (req, res) => {
     .status(201)
     .json({
       statusCode: 201,
-      data: contact,
+      data:contact.toObject(),
       message: "Message sent successfully",
       success: true
   }); 
