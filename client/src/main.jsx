@@ -20,7 +20,6 @@ import CareerQuiz from "./Pages/Career-Quiz/CareerQuiz.jsx";
 import CareerExploration from "./Pages/Career-Exploration/CareerExploration.jsx";
 import Resources from "./Pages/Resources/Resources.jsx";
 import AuthForm from "./Pages/AuthLanding/AuthForm.jsx";
-import Info from "./Pages/Dashboard/Info.jsx";
 import ForgetPassword from "./Pages/AuthLanding/ForgetPassword.jsx";
 import Contact from "./Pages/Contact/Contact.jsx";
 import UpdateProfile from "./Pages/Dashboard/UpdateProfile.jsx"
@@ -51,7 +50,6 @@ const router = createBrowserRouter(
 
       {/* Public Route */}
       <Route path="/auth" element={<GoogleAuthWrapper/>} />
-      <Route path="/auth/signupDetails" element={<Info/>}/>
       <Route path="/auth/forgetPassword" element={<ForgetPassword/>}/>
 
       {/* Protected Routes */}

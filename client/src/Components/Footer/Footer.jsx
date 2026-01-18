@@ -1,14 +1,9 @@
 import { GraduationCap, Mail, Phone, MapPin, Facebook, Twitter, Instagram, Youtube } from "lucide-react";
 import "./Footer.css";
+import { NavLink,useNavigate } from "react-router-dom";
 
 export default function Footer({ onSectionChange }) {
-  const quickLinks = [
-    { label: "Career Quiz", section: "quiz" },
-    { label: "Explore Careers", section: "explore" },
-    { label: "Resources", section: "resources" },
-    { label: "Contact Us", section: "contact" }
-  ];
-
+  const navigate = useNavigate();
   const careerCategories = [
     "Engineering & Technology",
     "Medical & Healthcare", 
@@ -62,16 +57,41 @@ export default function Footer({ onSectionChange }) {
           <div className="footer-section">
             <h3 className="footer-section-title">Quick Links</h3>
             <ul className="footer-links">
-              {quickLinks.map((link, index) => (
-                <li key={index}>
-                  <button
-                    onClick={() => onSectionChange(link.section)}
-                    className="footer-link"
-                  >
-                    {link.label}
-                  </button>
-                </li>
-              ))}
+              <li>
+                <NavLink
+                  to="/app/home" className="footer-link"
+                >
+                  Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/app/quiz" className="footer-link" 
+                >
+                  Career Quiz
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/app/explore-careers" className="footer-link"
+                >
+                  Explore Careers
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/app/resources" className="footer-link"
+                >
+                  Resources
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/app/contact" className="footer-link"
+                >
+                  Contact Us
+                </NavLink>
+              </li>
             </ul>
           </div>
 
@@ -132,7 +152,7 @@ export default function Footer({ onSectionChange }) {
             <MapPin className="contact-info-icon" />
             <div className="contact-info-content">
               <p className="contact-info-label">Visit Us</p>
-              <p className="contact-info-value">Delhi, India</p>
+              <p className="contact-info-value">Maharashtra, India</p>
             </div>
           </div>
         </div>

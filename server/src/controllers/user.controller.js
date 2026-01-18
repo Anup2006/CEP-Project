@@ -161,10 +161,6 @@ const loginUser=asyncHandler(async(req,res)=>{
         throw new apiError(401,"Invalid user credentials")
     }
 
-    if (user.provider === "google") {
-        throw new apiError(400, "This account uses Google login. Please login with Google.");
-    }
-
     const {accessToken,refreshToken} = await generateAccessAndRefreshTokens(user._id)
 
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken")

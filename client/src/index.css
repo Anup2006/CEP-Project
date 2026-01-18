@@ -74,7 +74,7 @@ button:focus-visible {
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --font-size: 16px;
+  --font-size: 12.8px; 
   --background: #ffffff;
   --foreground: oklch(0.145 0 0);
   --card: #ffffff;
@@ -199,6 +199,8 @@ button:focus-visible {
 
   body {
     @apply bg-background text-foreground;
+    transform: scale(1);
+    transform-origin: top left ;
   }
 } 
 

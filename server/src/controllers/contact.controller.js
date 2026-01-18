@@ -42,7 +42,6 @@ const sendMessage = asyncHandler(async (req, res) => {
     });
   } catch (err) {
     console.error("Email failed to send:", err.message);
-    // Optionally log somewhere else
   }
 
   const sanitizedContact = {

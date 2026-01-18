@@ -260,7 +260,7 @@ export default function Contact() {
                   </div>
                   <div className="contact-info-details">
                     <div className="contact-info-label1">Visit Us</div>
-                    <div className="contact-info-value1">Mumbai, Maharashtra</div>
+                    <div className="contact-info-value1">Pune, Maharashtra</div>
                     <div className="contact-info-subtitle">By appointment only</div>
                   </div>
                 </div>

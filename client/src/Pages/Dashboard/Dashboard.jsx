@@ -1,104 +1,75 @@
 import { useSelector } from "react-redux";
-import { useState } from "react";
-import {Edit} from "lucide-react"
+import { Edit } from "lucide-react";
 import { useNavigate } from "react-router";
 
-export default function Dashboard(){
-    const {user,token} = useSelector(state=>state.auth);
+export default function Dashboard() {
+  const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
-    const updateProfile=async()=>{
-        console.log("hi")
-        navigate("/app/update-profile")
-    }
-    return(
-        <>
-            <div className=" relative flex p-80 items-center justify-center h-screen bg-gray-100  pl-60 pr-60 ">
-                <div className="flex flex-col md:flex-row bg-blue-100 shadow-xl w-full items-center justify-evenly rounded-3xl">
-                    <div className="flex flex-col w-full pt-5 pb-5 rounded-l-2xl justify-center items-center text-center ">
-                        <div className="pt-10 p-15 w-full">
-                            <div className="flex justify-center w-full mb-10">
-                                <span className="flex gap-1 justify-center items-center w-32 h-32 rounded-full bg-gray-100 font-bold text-2xl cursor-pointer text-gray-700">
-                                    {user?.avatar ? (
-                                    <img 
-                                        src={user.avatar}
-                                        alt={user.username}
-                                        className="w-full h-full rounded-full object-cover"
-                                    />
-                                    ) : (
-                                    <span>{user?.username?.charAt(0).toUpperCase() || "?"}</span>
-                                    )}
-                                </span>
-                            </div>
-                            <div className="flex flex-row gap-5 mb-6 ">
-                                <div className="flex w-full flex-col gap-2">
-                                    <label htmlFor="name" className="form-label">
-                                        <span className="flex gap-1 justify-center">
-                                            Full Name
-                                        </span>
-                                    </label>
-                                    <div className="flex items-center bg-white border rounded-md px-3 py-2 focus-within:ring-2 focus-within:ring-blue-500">
-                                        {user?.fullname}
-                                    </div>
-                                </div>
-                                <div className="flex flex-col w-full gap-2">
-                                    <label htmlFor="email" className="form-label">
-                                        <span className="flex gap-1 justify-center">
-                                            Email Address
-                                        </span>
-                                    </label>
-                                    <div className="flex items-center bg-white border rounded-md px-3 py-2 focus-within:ring-2 focus-within:ring-blue-500">
-                                        {user?.email}
-                                    </div>
-                                </div>
-                            </div>
+  const updateProfile = () => {
+    navigate("/app/update-profile");
+  };
 
-                            <div className="flex mb-6 flex-row gap-5">
-                                <div className="flex w-full flex-col gap-2">
-                                    <label htmlFor="phone" className="form-label">
-                                        <span className="flex gap-1 justify-center">
-                                            Phone Number 
-                                        </span>
-                                    </label>
-                                    <div className="flex items-center bg-white border rounded-md px-3 py-2 focus-within:ring-2 focus-within:ring-blue-500">
-                                        +91 {user?.phoneNumber}
-                                    </div>
-                                </div>
-                                <div className="flex w-full flex-col gap-2">
-                                    <label htmlFor="class" className="form-label">
-                                        <span className="flex gap-1 justify-center">
-                                            Grade                                          
-                                        </span>
-                                    </label>
-                                    <div className="flex items-center bg-white border rounded-md px-3 py-2 focus-within:ring-2 focus-within:ring-blue-500">
-                                        {user?.grade}
-                                    </div>
-                                </div>
-                            </div>
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4 sm:p-6 md:p-10">
+      <div className="flex flex-col lg:flex-row bg-blue-100 shadow-xl w-full max-w-6xl rounded-3xl overflow-hidden">
+        
+        {/* Left Column */}
+        <div className="flex-1 flex flex-col p-6 lg:p-10 bg-blue-50 items-center text-center">
+          {/* Avatar */}
+          <div className="flex justify-center mb-6">
+            <span className="relative flex justify-center items-center w-32 h-32 rounded-full bg-gray-100 font-bold text-2xl text-gray-700">
+              {user?.avatar ? (
+                <img
+                  src={user.avatar}
+                  alt={user.username}
+                  className="w-full h-full rounded-full object-cover"
+                />
+              ) : (
+                <span>{user?.username?.charAt(0).toUpperCase() || "?"}</span>
+              )}
+            </span>
+          </div>
 
-                            <div className="flex mb-6 flex-col gap-2">
-                                <label htmlFor="address" className="form-label">
-                                    <span className="flex gap-1 justify-center">
-                                        Address
-                                    </span>
-                                </label>
-                                <div className="flex items-center bg-white border rounded-md px-3 py-2 focus-within:ring-2 focus-within:ring-blue-500">
-                                    Your Address
-                                </div>
-                            </div>
-
-                            <button
-                                onClick={updateProfile}
-                                className="submit-button w-full"
-                            >
-                                <span className="flex flex-row gap-2">
-                                    <Edit/> Edit 
-                                </span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+          {/* User Info Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full mb-4">
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-medium text-gray-600">Full Name</label>
+              <div className="px-3 py-2 bg-white border rounded-md">{user?.fullname}</div>
             </div>
-        </>
-    )
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-medium text-gray-600">Email Address</label>
+              <div className="px-3 py-2 bg-white border rounded-md">{user?.email}</div>
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-medium text-gray-600">Phone Number</label>
+              <div className="px-3 py-2 bg-white border rounded-md">
+                +91 {user?.phoneNumber}
+              </div>
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-medium text-gray-600">Grade</label>
+              <div className="px-3 py-2 bg-white border rounded-md">{user?.grade}</div>
+            </div>
+          </div>
+
+          {/* Address */}
+          <div className="flex flex-col gap-1 w-full mb-4">
+            <label className="text-sm font-medium text-gray-600">Address</label>
+            <div className="px-3 py-2 bg-white border rounded-md">
+              {user?.address || "Your Address"}
+            </div>
+          </div>
+
+          {/* Edit Button */}
+          <button
+            onClick={updateProfile}
+            className="w-full mt-4 px-4 py-2 bg-black text-white rounded-md flex justify-center items-center gap-2 hover:bg-gray-800 transition-colors"
+          >
+            <Edit className="w-5 h-5" /> Edit
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }

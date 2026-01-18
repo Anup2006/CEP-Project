@@ -3,7 +3,6 @@
   background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
   padding: 2rem 0;
   width:100%;
-  /* margin-left:-2rem; */
 }
 
 .exploration-container {
@@ -150,7 +149,6 @@
 
 .career-header {
   padding: 1rem;
-  /* height: 170px; */
   border-bottom: 1px solid var(--color-border);
   text-align: left;
 }
@@ -387,4 +385,5 @@
   text-align: center;
   margin-top: 2rem;
   color: #717182;
-}
+} 
+

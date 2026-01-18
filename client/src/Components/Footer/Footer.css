@@ -2,17 +2,16 @@
   background-color: #111827;
   color: white;
   width: 100%;
-  /* margin-left: -2rem; */
 }
+
 ::marker {
   color: #111827;
 }
+
 .footer-container {
   max-width: 1580px;
   margin: 0 auto;
-  padding-left: 7rem ;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  padding: 2rem 1.5rem;
 }
 
 .footer-content {
@@ -49,20 +48,17 @@
   width: 2rem;
   height: 2rem;
   color: var(--color-primary);
-  margin-top: 1rem;
 }
 
 .company-name {
   font-size: 1.5rem;
   font-weight: 600;
-  margin-top: 1rem;
 }
 
 .company-description {
   color: #d1d5db;
   font-size: 1rem;
   line-height: 1.5;
-  text-align: left;
 }
 
 .social-links {
@@ -100,18 +96,15 @@
 
 .footer-section-title {
   font-weight: 600;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   color: white;
-  margin-left: 2.4rem;
-  text-align: left;
-  margin-bottom: 0rem;
+  margin-bottom: 0.5rem;
 }
 
 .footer-links {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  text-align: left;
 }
 
 .footer-link {
@@ -119,7 +112,6 @@
   font-size: 1rem;
   background: none;
   border: none;
-  text-align: left;
   cursor: pointer;
   transition: color 0.2s;
   padding: 0;
@@ -130,7 +122,7 @@
 }
 
 .footer-separator {
-  width:1500px;
+  width: 100%; 
   height: 1px;
   background-color: #374151;
   margin: 2rem 0;
@@ -151,8 +143,8 @@
 .contact-info-item {
   display: flex;
   align-items: center;
-  height: 40px;
-  width:250px
+  gap: 0.75rem;
+  width: 100%; 
 }
 
 .contact-info-icon {
@@ -164,24 +156,19 @@
 .contact-info-content {
   display: flex;
   flex-direction: column;
-  gap:0;
-  text-align: left;
+  gap: 0;
 }
 
 .contact-info-label {
   font-size: 1rem;
   color: #d1d5db;
-  height: 20px;
   font-weight: bold;
-  margin-bottom:0rem ;
 }
 
 .contact-info-value {
   font-size: 1rem;
   color: white;
-  height: 20px;
   font-weight: bold;
-  margin-bottom:0rem ;
 }
 
 .footer-bottom {
@@ -205,8 +192,9 @@
 
 .footer-legal {
   display: flex;
-  gap: 1.5rem;
-  font-size: 1.25rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 1rem;
 }
 
 .legal-link {

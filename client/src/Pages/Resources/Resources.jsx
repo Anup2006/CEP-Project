@@ -297,19 +297,19 @@ export default function Resources() {
                             </span>
                           </div>
                         </div>
-                        <FileText className="material-icon pb-1" />
-                        {(user?.role === "admin" || user?.role === "mentor")? (
-                        <div>
-                          <button 
-                            className="delete-icon top-2 right-2 ml-2 px-1 hover:bg-red-100 rounded-full"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleDeleteMaterial(material._id);
-                            }}
-                          >
-                            <Trash2 className="w-5 h-5 text-red-600" />
-                          </button>
-                        </div>):(null)}
+                        <div className="flex " >
+                          <FileText className="material-icon" />
+                          {(user?.role === "admin" || user?.role === "mentor")? (
+                            <button 
+                              className="top-2 right-2 p-1 rounded-full bg-white hover:bg-red-100 transitionz-10"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteMaterial(material._id);
+                              }}
+                            >
+                              <Trash2 className="w-6 h-6 sm:w-5 sm:h-5 text-red-600" />
+                            </button>):(null)}
+                        </div>
                       </div>
                       <p className="material-description">{material.description}</p>
                     </div>
@@ -340,7 +340,7 @@ export default function Resources() {
 
           {/* Expert Videos Tab */}
           {activeTab === "videos" && (
-          <div>
+          <div className="tab-content">
             {/* Search bar */}
             <div className="bg-white p-2 search-container">
               <Search className="search-icon" />
@@ -416,6 +416,7 @@ export default function Resources() {
 
           {/* Webinars Tab */}
           {activeTab === "webinars" && (
+            <div className="tab-content">
             <div className="webinars-list">
               {user?.role === "admin" ? (
                 <button
@@ -548,6 +549,7 @@ export default function Resources() {
                   onClose={() => setShowWebinarModal(false)}
                 />
               )}
+              </div>
             </div>
           )}
 
