@@ -41,14 +41,17 @@ const sendMessage = asyncHandler(async (req, res) => {
     `
   });
 
-  return res
-    .status(201)
-    .json({
-      statusCode: 201,
-      data:contact.toObject(),
-      message: "Message sent successfully",
-      success: true
-  }); 
+  const sanitizedContact = {
+    name: contact.name,
+    email: contact.email,
+    subject: contact.subject,
+    phone: contact.phone || null,
+    message: contact.message,
+  };
+
+  return res.status(201)
+    .json(new apiResponse(201, sanitizedContact, "Message sent successfully"));
+ 
 });
 
 const getUnreadMessages = asyncHandler(async (req, res) => {
