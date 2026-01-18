@@ -43,7 +43,12 @@ const sendMessage = asyncHandler(async (req, res) => {
 
   return res
     .status(201)
-    .json(new apiResponse(201, contact, "Message sent successfully"));
+    .json({
+      statusCode: 201,
+      data: contact,
+      message: "Message sent successfully",
+      success: true
+  }); 
 });
 
 const getUnreadMessages = asyncHandler(async (req, res) => {

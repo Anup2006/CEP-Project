@@ -14,6 +14,7 @@ import { fetchWebinars, registerWebinar,deleteWebinar  } from "../../redux/webin
 import { deleteStudyMaterial, fetchStudyMaterials } from "../../redux/studyMaterialSlice.js";
 import WebinarDetail from "./webinarDetail.jsx";
 import AddRecording from "../Admin/AddRecording.jsx";
+import ChatBot from "./ChatBot.jsx";
 
 export default function Resources() {
   const [activeTab, setActiveTab] = useState("materials");
@@ -553,6 +554,7 @@ export default function Resources() {
           {/* Career Tips Tab */}
           {activeTab === "tips" && (
             <div className="tab-content">
+              <ChatBot/>
               <div className="tips-grid">
                 {careerTips.map((tip, index) => (
                   <div key={index} className="tip-card">

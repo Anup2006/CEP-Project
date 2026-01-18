@@ -5,6 +5,7 @@ import {upload} from "../middlewares/multer.middleware.js";
 import { addVideoByAdmin, deleteVideo, getAllVideos, searchYoutubeVideos } from "../controllers/video.controller.js";
 import { getAllWebinars,createWebinar,registerForWebinar,getWebinarById,deleteWebinar,addRecordingLink} from "../controllers/webinar.controller.js";
 import { createStudyMaterial, deleteStudyMaterial, getAllStudyMaterials } from "../controllers/studyMaterial.controller.js";
+import { aiCareerChat } from "../controllers/aiChatBot.controller.js";
 const router = Router()
 
 //videos
@@ -55,5 +56,7 @@ router.route("/study-material/:id").delete(
   deleteStudyMaterial
 );
 
+//chat bot
+router.route("/chatbot").post(verifyJwt, aiCareerChat)
 
 export default router;
